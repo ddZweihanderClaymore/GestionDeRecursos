@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -9,15 +10,18 @@
    <children>
       <SplitPane dividerPositions="0.13338192419825073" maxHeight="492.0" maxWidth="1374.0" minHeight="492.0" minWidth="1374.0" prefHeight="492.0" prefWidth="1374.0">
          <items>
-            <AnchorPane maxHeight="468.0" maxWidth="1000.0" minHeight="466.0" minWidth="1000.0" prefHeight="467.0" prefWidth="1000.0">
+            <AnchorPane maxHeight="485.0" maxWidth="1000.0" minHeight="485.0" minWidth="1000.0" prefHeight="485.0" prefWidth="1000.0">
                <children>
-                  <TableView fx:id="tablaDetalleReserva" layoutY="-12.0" prefHeight="492.0" prefWidth="1000.0">
+                  <TableView fx:id="tablaDetalleReserva" layoutY="-4.0" prefHeight="490.0" prefWidth="1000.0">
                     <columns>
                       <TableColumn fx:id="colId_Notificacion" prefWidth="114.0" text="id" />
                       <TableColumn fx:id="colFecha" minWidth="0.0" prefWidth="229.0" text="Fecha" />
                         <TableColumn fx:id="colDescripcion" minWidth="0.0" prefWidth="670.0" text="Descripcion" />
                         <TableColumn fx:id="colEstado" minWidth="0.0" prefWidth="172.0" text="Estado" />
                     </columns>
+                     <padding>
+                        <Insets top="8.0" />
+                     </padding>
                   </TableView>
                </children>
             </AnchorPane>

@@ -11,6 +11,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.Pane?>
 
 <AnchorPane id="AnchorPane" minHeight="690.0" minWidth="1382.0" prefHeight="690.0" prefWidth="1382.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javaapplication1.FXMLController">
@@ -21,12 +22,7 @@
                <children>
                   <Pane maxHeight="180.0" maxWidth="1389.0" minHeight="105.0" minWidth="1380.0" prefHeight="180.0" prefWidth="1389.0" style="-fx-background-color: #DFE0DC;">
                      <children>
-                        <ImageView fitHeight="90.0" fitWidth="134.0" layoutX="32.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../image/man_4140048.png" />
-                           </image>
-                        </ImageView>
-                        <Button fx:id="Notificacion" layoutX="1297.0" layoutY="22.0" mnemonicParsing="false" onAction="#btn_Notificacion">
+                        <Button fx:id="Notificacion" layoutX="1003.0" layoutY="8.0" mnemonicParsing="false" onAction="#btn_Notificacion" prefHeight="55.0" prefWidth="142.0" style="-fx-background-color: #D2D9BF;" text="Mis reservas">
                            <graphic>
                               <ImageView fitHeight="54.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -35,7 +31,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <MenuBar layoutX="174.0" layoutY="8.0">
+                        <MenuBar layoutX="174.0" layoutY="8.0" style="-fx-background-color: #D2D9BF;">
                            <menus>
                               <Menu mnemonicParsing="false" text="Equipos de computo">
                                  <items>
@@ -115,9 +111,19 @@
                               </Menu>
                            </menus>
                         </MenuBar>
-                        <Label fx:id="user" layoutX="54.0" layoutY="98.0" text="Usuario: " />
-                        <TextField fx:id="Usuario" editable="false" layoutX="14.0" layoutY="115.0" onAction="#btn_Notificacion" opacity="0.26" />
+                        <Label fx:id="user" layoutX="35.0" layoutY="14.0" text="Usuario: " />
+                        <TextField fx:id="Usuario" editable="false" layoutX="7.0" layoutY="31.0" onAction="#btn_Notificacion" opacity="0.26" />
                         <Separator layoutX="171.0" layoutY="-34.0" orientation="VERTICAL" prefHeight="208.0" prefWidth="6.0" />
+                        <FlowPane layoutX="655.0" layoutY="7.0" prefHeight="200.0" prefWidth="200.0" />
+                        <Button fx:id="Notificacion1" layoutX="1224.0" layoutY="13.0" mnemonicParsing="false" onAction="#btn_Notificacion" prefHeight="38.0" prefWidth="142.0">
+                           <graphic>
+                              <ImageView fitHeight="54.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../image/icons8-recordatorios-de-citas-40.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                   </Pane>
                </children>
