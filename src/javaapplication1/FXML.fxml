@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" minHeight="690.0" minWidth="1382.0" prefHeight="690.0" prefWidth="1382.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javaapplication1.FXMLController">
+   <children>
+      <SplitPane dividerPositions="0.2805232558139535" orientation="VERTICAL" prefHeight="690.0" prefWidth="1382.0" style="-fx-background-color: #DFE0DC;">
+        <items>
+          <AnchorPane maxHeight="180.0" maxWidth="1380.0" minHeight="180.0" minWidth="1380.0" prefHeight="180.0" prefWidth="1380.0">
+               <children>
+                  <Pane maxHeight="180.0" maxWidth="1389.0" minHeight="105.0" minWidth="1380.0" prefHeight="180.0" prefWidth="1389.0" style="-fx-background-color: #DFE0DC;">
+                     <children>
+                        <ImageView fitHeight="90.0" fitWidth="134.0" layoutX="32.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/man_4140048.png" />
+                           </image>
+                        </ImageView>
+                        <Button fx:id="Notificacion" layoutX="1297.0" layoutY="22.0" mnemonicParsing="false">
+                           <graphic>
+                              <ImageView fitHeight="54.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../image/icons8-recordatorios-de-citas-40.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <MenuBar layoutX="174.0" layoutY="8.0">
+                           <menus>
+                              <Menu mnemonicParsing="false" text="Equipos de computo">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" onAction="#Seleccionado" text="Computadora de Escritorio" />
+                                    <MenuItem mnemonicParsing="false" onAction="#Seleccionado" text="Computadora portátil" />
+                                    <MenuItem mnemonicParsing="false" onAction="#Seleccionado" text="Equipos Telefónicos" />
+                                    <MenuItem mnemonicParsing="false" onAction="#Seleccionado" text="Servidores" />
+                                    <MenuItem mnemonicParsing="false" onAction="#Seleccionado" text="Dispositivos de almacenamiento" />
+                                 </items>
+                                 <graphic>
+                                    <ImageView fitHeight="54.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../image/pngwing.com.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Menu>
+                              <Menu mnemonicParsing="false" text="Perifericos">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" onAction="#Seleccionado" text="Teclado y mouse" />
+                                    <MenuItem mnemonicParsing="false" onAction="#Seleccionado" text="Impresora" />
+                                    <MenuItem mnemonicParsing="false" onAction="#Seleccionado" text="Equipos de videoconferencia" />
+                                    <MenuItem mnemonicParsing="false" onAction="#Seleccionado" text="Dispositivos de almacenamiento externo" />
+                                 </items>
+                                 <graphic>
+                                    <ImageView fitHeight="54.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../image/pngwing.com%20(1).png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Menu>
+                              <Menu mnemonicParsing="false" text="Red y comunicaciones">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" onAction="#Seleccionado" text="Routers" />
+                                    <MenuItem mnemonicParsing="false" onAction="#Seleccionado" text="Módems" />
+                                    <MenuItem mnemonicParsing="false" onAction="#Seleccionado" text="Auriculares" />
+                                    <MenuItem mnemonicParsing="false" onAction="#Seleccionado" text="Camara web" />
+                                    <MenuItem mnemonicParsing="false" onAction="#Seleccionado" text="Proyectores" />
+                                 </items>
+                                 <graphic>
+                                    <ImageView fitHeight="54.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../image/pngwing.com%20(2).png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Menu>
+                              <Menu mnemonicParsing="false" text="Sala de reuniones">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" onAction="#Seleccionado" text="Sala A" />
+                                    <MenuItem mnemonicParsing="false" onAction="#Seleccionado" text="Sala B" />
+                                    <MenuItem mnemonicParsing="false" onAction="#Seleccionado" text="Sala principal" />
+                                    <MenuItem mnemonicParsing="false" onAction="#Seleccionado" text="Sala ejecutiva" />
+                                 </items>
+                                 <graphic>
+                                    <ImageView fitHeight="54.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../image/pngwing.com%20(3).png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Menu>
+                              <Menu mnemonicParsing="false" text="Transporte">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" onAction="#Seleccionado" text="Vehículo Personal" />
+                                    <MenuItem mnemonicParsing="false" onAction="#Seleccionado" text="Minibuses" />
+                                    <MenuItem mnemonicParsing="false" onAction="#Seleccionado" text="Bicicletas" />
+                                 </items>
+                                 <graphic>
+                                    <ImageView fitHeight="54.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../image/pngwing.com%20(4).png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Menu>
+                           </menus>
+                        </MenuBar>
+                        <Label fx:id="user" layoutX="54.0" layoutY="98.0" text="Usuario: " />
+                        <TextField fx:id="Usuario" editable="false" layoutX="14.0" layoutY="115.0" onAction="#btn_Notificacion" opacity="0.26" />
+                        <Separator layoutX="171.0" layoutY="-34.0" orientation="VERTICAL" prefHeight="208.0" prefWidth="6.0" />
+                     </children>
+                  </Pane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="tabla" maxHeight="492.0" maxWidth="1374.0" minHeight="492.0" minWidth="1374.0" prefHeight="492.0" prefWidth="1374.0" />
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
