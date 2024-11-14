@@ -4,68 +4,75 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import javaapplication1.JavaApplication1;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import tabla.tablaContenido;
 
 public class NotificacionesController {
+
+    private int usuario;
     private Connection con = JavaApplication1.getConnection();
     private ObservableList<ContenidoNotificacion> detalleReserva = FXCollections.observableArrayList();
 
-    @FXML // fx:id="colDescripcion"
-    private TableColumn<tablaContenido, String> colDescripcion; // Value injected by FXMLLoader
-
-    @FXML // fx:id="colEstado"
-    private TableColumn<tablaContenido, String> colEstado; // Value injected by FXMLLoader
-
-    @FXML // fx:id="colFecha"
-    private TableColumn<tablaContenido, String> colFecha; // Value injected by FXMLLoader
-
-    @FXML // fx:id="colId_Notificacion"
-    private TableColumn<tablaContenido, Integer> colId_Notificacion; // Value injected by FXMLLoader
-
-    @FXML // fx:id="colTitulo"
-    private TableColumn<tablaContenido, String> colTitulo; // Value injected by FXMLLoader
-
-    @FXML // fx:id="tablaDetalleReserva"
-    private TableView<tablaContenido> tablaDetalleReserva; // Value injected by FXMLLoader
+    @FXML
+    private TableColumn<ContenidoNotificacion, String> colDescripcion;
+    @FXML
+    private TableColumn<ContenidoNotificacion, String> colEstado;
+    @FXML
+    private TableColumn<ContenidoNotificacion, String> colFecha;
+    @FXML
+    private TableColumn<ContenidoNotificacion, Integer> colId_Notificacion;
+    @FXML
+    private TableView<ContenidoNotificacion> tablaDetalleReserva;
 
     public NotificacionesController() {
         // Constructor vacío
     }
 
-    public NotificacionesController(String usuario) {
-        cargarNotificaciones(usuario);
-    }
-
-    private void cargarNotificaciones(String usuario) {
+    private void cargarNotificaciones() {
         detalleReserva.clear();
-        String query = "SELECT * FROM notificaciones WHERE id_trabajador = ?";
+        System.out.println("Este es el usuario en cargarNotificaciones: " + usuario);
+        String query = "SELECT * FROM detalle_reserva WHERE id_trabajador = ?";
 
         try (PreparedStatement pst = con.prepareStatement(query)) {
-            pst.setString(1, usuario);
+            pst.setInt(1, usuario);
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
-                int idNotificacion = rs.getInt("id_Notificacion");
-                String titulo = rs.getString("titulo");
-                String descripcion = rs.getString("descripcion");
-                java.sql.Timestamp fecha = rs.getTimestamp("fecha");
-                String Fecha = fecha.toString(); // Mejor manejo de formato
-                String estado = rs.getString("estado");
+                int idNotificacion = rs.getInt("id_detalleReserva");
+                java.sql.Timestamp fechaTimestamp = rs.getTimestamp("Fecha");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String fecha = sdf.format(fechaTimestamp);
+                String descripcion = rs.getString("RazondeReserva");
+                String estado = rs.getString("Estado");
 
-                detalleReserva.add(new ContenidoNotificacion(idNotificacion, titulo, descripcion, Fecha, estado));
+                detalleReserva.add(new ContenidoNotificacion(idNotificacion, fecha, descripcion, estado));
             }
             tablaDetalleReserva.setItems(detalleReserva);
         } catch (SQLException e) {
             System.err.println("Error al cargar las notificaciones: " + e.getMessage());
         }
     }
+
+    public void setUsuario(int usuario) {
+        this.usuario = usuario;
+        cargarNotificaciones(); // Cargar notificaciones una vez se establece el usuario
+    }
+
+    @FXML
+    public void initialize() {
+        colId_Notificacion.setCellValueFactory(cellData -> cellData.getValue().Id_NotificacionProperty().asObject());
+        colDescripcion.setCellValueFactory(cellData -> cellData.getValue().DescripcionProperty());
+        colFecha.setCellValueFactory(cellData -> cellData.getValue().FechaProperty());
+        colEstado.setCellValueFactory(cellData -> cellData.getValue().EstadoProperty());
+    }
 }
+
+
 //     public void crearNotificaciones(String usuario) {
 //         try {
 //            if (con != null) { // Verificar si se ha establecido una conexión.

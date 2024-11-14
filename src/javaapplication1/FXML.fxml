@@ -26,7 +26,7 @@
                               <Image url="@../image/man_4140048.png" />
                            </image>
                         </ImageView>
-                        <Button fx:id="Notificacion" layoutX="1297.0" layoutY="22.0" mnemonicParsing="false">
+                        <Button fx:id="Notificacion" layoutX="1297.0" layoutY="22.0" mnemonicParsing="false" onAction="#btn_Notificacion">
                            <graphic>
                               <ImageView fitHeight="54.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
                                  <image>

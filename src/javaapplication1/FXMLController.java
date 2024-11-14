@@ -58,10 +58,22 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void btn_Notificacion(ActionEvent event) {
-       NotificacionesController notificacion= new NotificacionesController();
-       
-    }
+        int user = Integer.parseInt(Usuario.getText());
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Notificaciones/Notificacion.fxml"));
+            Parent root = loader.load();
 
+            // Obtener el controlador de `NotificacionesController`
+            NotificacionesController controller = loader.getController();
+            controller.setUsuario(user);  // Cambié setFileName a setUsuario
+
+            // Limpiar el contenido de `tabla` y añadir el contenido de `Notificacion.fxml`
+            tabla.getChildren().clear();
+            tabla.getChildren().add(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     // Métodos para obtener y establecer el id_trabajador
     public int getId_trabajador() {
         return id_trabajador;

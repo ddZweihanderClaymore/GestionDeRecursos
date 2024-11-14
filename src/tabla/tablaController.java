@@ -165,4 +165,8 @@ public class tablaController {
         razon = text;
     }
 
+    public void setFileName(int user) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }
