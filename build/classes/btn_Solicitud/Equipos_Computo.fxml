@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="70.0" prefWidth="1374.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="btn_Solicitud.Equipos_ComputoController">
+   <children>
+      <Pane prefHeight="70.0" prefWidth="1374.0">
+         <children>
+            <Button layoutX="4.0" layoutY="14.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="193.0" text="Computadora de Escritorio" onAction="#btnPresionado" />
+            <Button layoutX="229.0" layoutY="14.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="193.0" text="Computadora portátil" onAction="#btnPresionado" />
+            <Button layoutX="462.0" layoutY="14.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="193.0" text="Equipos Telefónicos" onAction="#btnPresionado" />
+            <Button layoutX="681.0" layoutY="14.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="193.0" text="Servidores" onAction="#btnPresionado" />
+            <Button layoutX="898.0" layoutY="14.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="193.0" text="Dispositivos de almacenamiento" onAction="#btnPresionado" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

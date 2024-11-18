@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane prefHeight="60.0" prefWidth="1384.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="btn_Solicitud.TransporteController">
+   <children>
+      <Pane prefHeight="60.0" prefWidth="1384.0">
+         <children>
+            <Button fx:id="vehiculo_Personal" layoutX="4.0" layoutY="12.0" mnemonicParsing="false"  prefHeight="36.0" prefWidth="193.0" text="Vehiculo Personal" onAction="#btnPresionado"/>
+            <Button fx:id="minibus" layoutX="213.0" layoutY="12.0" mnemonicParsing="false"  prefHeight="36.0" prefWidth="193.0" text="Minibuses" onAction="#btnPresionado"/>
+            <Button fx:id="bicicletas" layoutX="422.0" layoutY="12.0" mnemonicParsing="false"  prefHeight="36.0" prefWidth="193.0" text="Bicicletas" onAction="#btnPresionado"/>
+            <Button fx:id="reservas_Vuelos" layoutX="637.0" layoutY="12.0" mnemonicParsing="false"  prefHeight="36.0" prefWidth="193.0" text="Reserva de vuelos" onAction="#btnPresionado"/>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
