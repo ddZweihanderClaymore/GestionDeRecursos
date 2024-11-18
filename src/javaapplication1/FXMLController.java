@@ -37,6 +37,7 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void Seleccionado(ActionEvent event) {
+        int user = Integer.parseInt(Usuario.getText());
         MenuItem selectedMenuItem = (MenuItem) event.getSource();
         String texto = selectedMenuItem.getText();
         System.out.println("Texto del MenuItem seleccionado: " + texto);
@@ -46,7 +47,7 @@ public class FXMLController implements Initializable {
 
             // Obtener el controlador de `tablaController`
             tablaController controller = loader.getController();
-            controller.setFileName(texto);  // Enviar el nombre del botón
+            controller.setFileName(texto, user);  // Enviar el nombre del botón
 
             // Limpiar el contenido de `tabla` y añadir el contenido de `table.fxml`
             tabla.getChildren().clear();

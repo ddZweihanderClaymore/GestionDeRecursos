@@ -29,6 +29,7 @@ import javax.swing.JOptionPane; // Importa JOptionPane para mostrar diálogos
 public class tablaController {
 
     private String fileName; // Nombre del archivo o subtipo de mobiliario seleccionado
+    private int usuario;
     private int id_selected = 0; // ID del mobiliario seleccionado en la tabla
     private String hora_Inicio; // Hora de inicio de la reserva
     private String hora_Fin; // Hora de fin de la reserva
@@ -106,8 +107,6 @@ public class tablaController {
         try {
             if (con != null) { // Verificar si se ha establecido una conexión.
                 Statement st = con.createStatement();
-                System.out.println("Conectado a la base de datos 'mydatabase'");
-
                 ResultSet rs = st.executeQuery("SELECT * FROM mobiliario WHERE Subtipo = '" + fileName + "'");
 
                 while (rs.next()) {
@@ -127,8 +126,9 @@ public class tablaController {
         }
     }
 
-    public void setFileName(String fileName) {
+    public void setFileName(String fileName, int user) {
         this.fileName = fileName;
+        usuario=user;
         realizarConsulta(); // Llama a realizarConsulta al establecer un nuevo nombre de archivo.
     }
 
@@ -147,7 +147,7 @@ public class tablaController {
             fecha_Seleccionada = fecha.toString();
 
             Insert dato = new Insert();
-            dato.insertarHorario(hora_Inicio, hora_Fin, dia, fecha_Seleccionada, id_selected);
+            dato.insertarHorario(hora_Inicio, hora_Fin, dia, fecha_Seleccionada, id_selected, razon, usuario);
 
             JOptionPane.showInternalMessageDialog(null, "Se ha creado su reserva");  // Mostrar un diálogo interno con mensaje.
 
@@ -164,9 +164,4 @@ public class tablaController {
         menuRazon.setText(text);
         razon = text;
     }
-
-    public void setFileName(int user) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
 }

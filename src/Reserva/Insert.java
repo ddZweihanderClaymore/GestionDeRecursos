@@ -29,10 +29,7 @@ public class Insert {
 
     Connection con = JavaApplication1.getConnection();
 
-    public void insertarHorario(String hora_Inicio, String hora_Fin, String dia, String fecha, int id_selected) {
-        
-        
-        /*
+    public void insertarHorario(String hora_Inicio, String hora_Fin, String dia, String fecha, int id_selected, String razon, int usuario) {
         try {
             if (con != null) {  // Verifica que la conexión no es nula
                 
@@ -58,11 +55,14 @@ public class Insert {
                 if (rsHorario.next()) {
                     newId = rsHorario.getInt(1) + 1;
                 }
-                String insertdetalleReservaSQL = "INSERT INTO detalle_reserva ( id_Horario, id_Mobiliario, Fecha ) VALUES (?, ?, ?)";
+                String insertdetalleReservaSQL = "INSERT INTO detalle_reserva ( id_Horario, id_Mobiliario, id_Trabajador, Fecha, Estado ) VALUES (?, ?, ?, ?, ?, ?)";
                 PreparedStatement psdetallereserva = con.prepareStatement(insertdetalleReservaSQL);
                 psdetallereserva.setInt(1, newId - 1);  // Hora de inicio obtenida del campo de texto
-                psdetallereserva.setInt(2, id_selected);  // Hora de fin obtenida del campo de texto
-                psdetallereserva.setString(3, fecha);  // Día de la semana seleccionado
+                psdetallereserva.setInt(2, id_selected); // Hora de fin obtenida del campo de texto
+                psdetallereserva.setInt(3, usuario);
+                psdetallereserva.setString(4, fecha);  // Día de la semana seleccionado
+                psdetallereserva.setString(5,razon);
+                psdetallereserva.setString(6,"Por validar");
                 int rowsInserteddetalleReserva = psdetallereserva.executeUpdate();  // Ejecuta la consulta
                 if (rowsInserteddetalleReserva > 0) {
                     System.out.println("Inserción exitosa en la tabla detalle_reserva.");
@@ -71,36 +71,65 @@ public class Insert {
                 }
 
                 //INSERT RESERVA
-                Statement stDetalleReserva = con.createStatement();
-                ResultSet rsDetalleReserva = stDetalleReserva.executeQuery("SELECT MAX(id_DetalleReserva) FROM detalle_reserva");
-
-                int newIdDetalleReserva = 1;
-                if (rsDetalleReserva.next()) {
-                    newIdDetalleReserva = rsDetalleReserva.getInt(1) + 1;
-                }
-                trabajador=getTrabajador();
-                System.out.println("trabajador: " + trabajador + "  id_detalleReserva: " + newIdDetalleReserva);
-                String insertreservaSQL = "INSERT INTO reserva (id_Trabajador, id_DetalleReserva, razon) VALUES (?, ?, ?)";
-                PreparedStatement psreserva = con.prepareStatement(insertreservaSQL);
-                psreserva.setInt(1, trabajador);  // Hora de inicio obtenida del campo de texto
-                psreserva.setInt(2, newIdDetalleReserva - 1);  // Hora de fin obtenida del campo de texto
-                psreserva.setString(3, razon);  // Día de la semana seleccionado
-
-                int rowsInsertedReserva = psreserva.executeUpdate();  // Ejecuta la consulta
-                if (rowsInsertedReserva > 0) {
-                    System.out.println("Inserción exitosa en la tabla reserva.");
-                } else {
-                    System.out.println("Inserción fallida en la tabla reserva.");
-                }
+//                Statement stDetalleReserva = con.createStatement();
+//                ResultSet rsDetalleReserva = stDetalleReserva.executeQuery("SELECT MAX(id_DetalleReserva) FROM detalle_reserva");
+//
+//                int newIdDetalleReserva = 1;
+//                if (rsDetalleReserva.next()) {
+//                    newIdDetalleReserva = rsDetalleReserva.getInt(1) + 1;
+//                }
+//                System.out.println("trabajador: " + trabajador + "  id_detalleReserva: " + newIdDetalleReserva);
+//                String insertreservaSQL = "INSERT INTO reserva (id_Trabajador, id_DetalleReserva, razon) VALUES (?, ?, ?)";
+//                PreparedStatement psreserva = con.prepareStatement(insertreservaSQL);
+//                psreserva.setInt(1, trabajador);  // Hora de inicio obtenida del campo de texto
+//                psreserva.setInt(2, newIdDetalleReserva - 1);  // Hora de fin obtenida del campo de texto
+//                psreserva.setString(3, razon);  // Día de la semana seleccionado
+//
+//                int rowsInsertedReserva = psreserva.executeUpdate();  // Ejecuta la consulta
+//                if (rowsInsertedReserva > 0) {
+//                    System.out.println("Inserción exitosa en la tabla reserva.");
+//                } else {
+//                    System.out.println("Inserción fallida en la tabla reserva.");
+//                }
 
                 ps.close();  // Cierra el PreparedStatement después de usarlo
+                psdetallereserva.close();
             }
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
-        }*/
-
     }
-
+    }
+    
+    public void crearReserva() {
+//        try {
+//            if (con != null) {
+               //INSERT RESERVA
+//                Statement stDetalleReserva = con.createStatement();
+//                ResultSet rsDetalleReserva = stDetalleReserva.executeQuery("SELECT MAX(id_DetalleReserva) FROM detalle_reserva");
+//
+//                int newIdDetalleReserva = 1;
+//                if (rsDetalleReserva.next()) {
+//                    newIdDetalleReserva = rsDetalleReserva.getInt(1) + 1;
+//                }
+//                System.out.println("trabajador: " + trabajador + "  id_detalleReserva: " + newIdDetalleReserva);
+//                String insertreservaSQL = "INSERT INTO reserva (id_Trabajador, id_DetalleReserva, razon) VALUES (?, ?, ?)";
+//                PreparedStatement psreserva = con.prepareStatement(insertreservaSQL);
+//                psreserva.setInt(1, trabajador);  // Hora de inicio obtenida del campo de texto
+//                psreserva.setInt(2, newIdDetalleReserva - 1);  // Hora de fin obtenida del campo de texto
+//                psreserva.setString(3, razon);  // Día de la semana seleccionado
+//
+//                int rowsInsertedReserva = psreserva.executeUpdate();  // Ejecuta la consulta
+//                if (rowsInsertedReserva > 0) {
+//                    System.out.println("Inserción exitosa en la tabla reserva.");
+//                } else {
+//                    System.out.println("Inserción fallida en la tabla reserva.");
+//                }
+//            }
+//        } catch (SQLException e) {
+//            System.err.println("Error: " + e.getMessage());
+//        }
+    }
+    
     public String getPrivilegio() {
         return privilegio;
     }
