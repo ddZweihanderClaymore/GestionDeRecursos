@@ -70,28 +70,7 @@ public class Insert {
                     System.out.println("Inserción fallida en la tabla detalle_reserva.");
                 }
 
-                //INSERT RESERVA
-//                Statement stDetalleReserva = con.createStatement();
-//                ResultSet rsDetalleReserva = stDetalleReserva.executeQuery("SELECT MAX(id_DetalleReserva) FROM detalle_reserva");
-//
-//                int newIdDetalleReserva = 1;
-//                if (rsDetalleReserva.next()) {
-//                    newIdDetalleReserva = rsDetalleReserva.getInt(1) + 1;
-//                }
-//                System.out.println("trabajador: " + trabajador + "  id_detalleReserva: " + newIdDetalleReserva);
-//                String insertreservaSQL = "INSERT INTO reserva (id_Trabajador, id_DetalleReserva, razon) VALUES (?, ?, ?)";
-//                PreparedStatement psreserva = con.prepareStatement(insertreservaSQL);
-//                psreserva.setInt(1, trabajador);  // Hora de inicio obtenida del campo de texto
-//                psreserva.setInt(2, newIdDetalleReserva - 1);  // Hora de fin obtenida del campo de texto
-//                psreserva.setString(3, razon);  // Día de la semana seleccionado
-//
-//                int rowsInsertedReserva = psreserva.executeUpdate();  // Ejecuta la consulta
-//                if (rowsInsertedReserva > 0) {
-//                    System.out.println("Inserción exitosa en la tabla reserva.");
-//                } else {
-//                    System.out.println("Inserción fallida en la tabla reserva.");
-//                }
-
+      
                 ps.close();  // Cierra el PreparedStatement después de usarlo
                 psdetallereserva.close();
             }
