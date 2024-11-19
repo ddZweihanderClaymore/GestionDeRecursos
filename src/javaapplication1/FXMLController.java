@@ -8,11 +8,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import tabla.tablaContenido;
 import tabla.tablaController;
 
 public class FXMLController implements Initializable {
@@ -25,10 +32,16 @@ public class FXMLController implements Initializable {
     private AnchorPane tabla;
     @FXML
     private TextField Usuario;
-
     
+
+    private int user;
+    private int i=0;
+    private List<Integer> cadenaUsuarios = new ArrayList<>(); 
     public String btn_Solicitud;
     private int id_trabajador;
+    private int departamento;
+    Connection con = JavaApplication1.getConnection(); // Obtener conexión desde JavaApplication1.
+    private String puesto;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -59,14 +72,46 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void btn_Notificacion(ActionEvent event) {
-        int user = Integer.parseInt(Usuario.getText());
+       
+        
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Notificaciones/Notificacion.fxml"));
             Parent root = loader.load();
-
             // Obtener el controlador de `NotificacionesController`
             NotificacionesController controller = loader.getController();
-            controller.setUsuario(user);  // Cambié setFileName a setUsuario
+            try {
+                if (con != null) { // Verificar si se ha establecido una conexión.
+                    
+                    Statement st = con.createStatement();
+                     user = Integer.parseInt(Usuario.getText());
+                    
+                    ResultSet rs = st.executeQuery("SELECT * FROM trabajador WHERE id_Trabajador = '" + user + "'");
+                    while (rs.next()) {
+                       puesto=rs.getString("Puesto"); 
+                       departamento= rs.getInt("id_Departamento");
+                    }
+                    
+                    if(puesto.equals("Gerente")||puesto.equals("Gestor de activos")){
+                        System.out.println("Entro al if");
+                        
+                        ResultSet rsCadena = st.executeQuery("SELECT * FROM trabajador WHERE id_Departamento = '" + departamento + "'"); 
+                     
+                        while (rsCadena.next()) {
+                            int idTrabajador = rsCadena.getInt("id_Trabajador"); // Usar rsCadena aquí
+                            cadenaUsuarios.add(idTrabajador); // Añadir el ID a la lista
+                            System.out.println("ID Trabajador: " + idTrabajador);
+                        }
+                        controller.setUsuario(user);  // Cambié setFileName a setUsuario
+                    }else{
+                          controller.setUsuario(user);  // Cambié setFileName a setUsuario
+
+                    }
+
+                    rs.close(); // Cerrar el ResultSet después de usarlo.
+                }
+            } catch (SQLException e) {
+                System.err.println("Error al realizar la consulta: " + e.getMessage()); // Manejo básico de errores en caso de fallos en la consulta.
+            }
 
             // Limpiar el contenido de `tabla` y añadir el contenido de `Notificacion.fxml`
             tabla.getChildren().clear();
@@ -82,7 +127,6 @@ public class FXMLController implements Initializable {
 
     public void setId_trabajador(int id_trabajador) {
         this.id_trabajador = id_trabajador;
-        
          if (Usuario != null) {
             Usuario.setText(""+this.id_trabajador); 
         }
