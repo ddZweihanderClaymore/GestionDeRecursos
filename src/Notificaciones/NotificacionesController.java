@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import javaapplication1.JavaApplication1;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +17,7 @@ import javafx.scene.control.TableView;
 public class NotificacionesController {
 
     private int usuario;
+    private List<Integer> cadenaUsuarios = new ArrayList<>();
     private Connection con = JavaApplication1.getConnection();
     private ObservableList<ContenidoNotificacion> detalleReserva = FXCollections.observableArrayList();
 
@@ -36,10 +39,11 @@ public class NotificacionesController {
     private void cargarNotificaciones() {
         detalleReserva.clear();
         System.out.println("Este es el usuario en cargarNotificaciones: " + usuario);
+        for(int i=0; i<cadenaUsuarios.size();i++){
         String query = "SELECT * FROM detalle_reserva WHERE id_trabajador = ?";
 
         try (PreparedStatement pst = con.prepareStatement(query)) {
-            pst.setInt(1, usuario);
+            pst.setInt(1, cadenaUsuarios.get(i));
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -56,10 +60,13 @@ public class NotificacionesController {
         } catch (SQLException e) {
             System.err.println("Error al cargar las notificaciones: " + e.getMessage());
         }
+        }
     }
 
-    public void setUsuario(int usuario) {
-        this.usuario = usuario;
+
+
+    public void setUsuario(List<Integer> cadenaUsuarios) {
+        this.cadenaUsuarios = cadenaUsuarios;
         cargarNotificaciones(); // Cargar notificaciones una vez se establece el usuario
     }
 
@@ -71,44 +78,3 @@ public class NotificacionesController {
         colEstado.setCellValueFactory(cellData -> cellData.getValue().EstadoProperty());
     }
 }
-
-
-//     public void crearNotificaciones(String usuario) {
-//         try {
-//            if (con != null) { // Verificar si se ha establecido una conexión.
-//                Statement st = con.createStatement();
-//
-//                ResultSet rs_Puesto = st.executeQuery("SELECT * FROM trabajador WHERE id_trabajador = '" + usuario + "'");
-//                
-//                while(rs_Puesto.next()){
-//                    puesto= rs_Puesto.getString("Puesto");
-//                }
-//                if(puesto=="Gerente"){
-//                    
-//                }
-//                ResultSet rs = st.executeQuery("SELECT * FROM detalle_reserva WHERE id_trabajador = '" + usuario + "'");
-//
-//                while (rs.next()) {
-//                    int idNotificacion = rs.getInt("id_detalleReserva");
-//                    String titulo = rs.getString("Fecha");
-//                    String descripcion = rs.getString("RazondeReserva");
-//                    java.sql.Timestamp fecha = rs.getTimestamp("Estado");
-//                    String estado=rs.getString("");
-//                    
-//                    
-//                    
-//               //     CREAR FXML DE NOTIFICACIONES
-//                
-//                
-//                
-//                
-//                
-//                }
-//
-//                rs.close();
-//            }
-//        } catch (SQLException e) {
-//            System.err.println("Su bandeja esta vacia"); 
-//        }
-//    }
-//}

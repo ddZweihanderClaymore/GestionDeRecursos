@@ -84,7 +84,7 @@ public class FXMLController implements Initializable {
                     
                     Statement st = con.createStatement();
                      user = Integer.parseInt(Usuario.getText());
-                    
+                    cadenaUsuarios.add(user);
                     ResultSet rs = st.executeQuery("SELECT * FROM trabajador WHERE id_Trabajador = '" + user + "'");
                     while (rs.next()) {
                        puesto=rs.getString("Puesto"); 
@@ -100,12 +100,12 @@ public class FXMLController implements Initializable {
                             int idTrabajador = rsCadena.getInt("id_Trabajador"); // Usar rsCadena aquí
                             cadenaUsuarios.add(idTrabajador); // Añadir el ID a la lista
                             System.out.println("ID Trabajador: " + idTrabajador);
-                        }
-                        controller.setUsuario(user);  // Cambié setFileName a setUsuario
-                    }else{
-                          controller.setUsuario(user);  // Cambié setFileName a setUsuario
-
+                        } // Cambié setFileName a setUsuario
                     }
+                    
+                          controller.setUsuario(cadenaUsuarios);  // Cambié setFileName a setUsuario
+
+                    
 
                     rs.close(); // Cerrar el ResultSet después de usarlo.
                 }
