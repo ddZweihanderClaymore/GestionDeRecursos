@@ -9,6 +9,10 @@ import javafx.scene.Parent; // Importa Parent para representar el nodo raíz de 
 import javafx.scene.Scene; // Importa Scene para definir la escena de la aplicación
 import javafx.stage.Stage; // Importa Stage para representar la ventana principal
 
+/**
+ * Clase principal de la aplicación JavaFX que maneja la conexión a la base de datos
+ * y el inicio de la interfaz gráfica.
+ */
 public class JavaApplication1 extends Application {
 
     private static Connection con; // Variable estática que almacena la conexión a la base de datos
@@ -17,7 +21,9 @@ public class JavaApplication1 extends Application {
     public void start(Stage stage) {
         try {
             conectarBaseDatos(); // Llama al método para establecer conexión con la base de datos
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Login.fxml")); // Carga el archivo FXML que define la interfaz gráfica
+            
+            // Carga el archivo FXML que define la interfaz gráfica
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Login.fxml"));
             Parent root = loader.load(); // Crea el nodo raíz a partir del archivo FXML
 
             // Configurar escena
@@ -31,9 +37,14 @@ public class JavaApplication1 extends Application {
         }
     }
 
+    /**
+     * Método que establece la conexión a la base de datos MySQL.
+     */
     private void conectarBaseDatos() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver"); // Carga el driver de MySQL para establecer conexión
+            
+            // Establece conexión a la base de datos 'mydatabase'
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydatabase?useTimezone=true&serverTimezone=UTC", "root", "Zweihander128"); 
             System.out.println("Conexión exitosa a la base de datos 'mydatabase'"); // Mensaje de éxito al conectar a la base de datos
         } catch (SQLException e) {
@@ -45,8 +56,13 @@ public class JavaApplication1 extends Application {
         }
     }
 
+    /**
+     * Método estático que devuelve la conexión a la base de datos.
+     *
+     * @return La conexión a la base de datos.
+     */
     public static Connection getConnection() {
-        return con; // Método estático que devuelve la conexión a la base de datos
+        return con; // Retorna la conexión a la base de datos
     }
 
     @Override
@@ -62,7 +78,12 @@ public class JavaApplication1 extends Application {
         }
     }
 
+    /**
+     * Método principal que inicia la aplicación JavaFX.
+     *
+     * @param args Argumentos pasados desde la línea de comandos.
+     */
     public static void main(String[] args) {
-        launch(args); // Método principal que inicia la aplicación JavaFX
+        launch(args); // Inicia la aplicación JavaFX
     }
 }
