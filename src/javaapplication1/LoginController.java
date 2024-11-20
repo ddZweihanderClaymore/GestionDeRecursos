@@ -15,7 +15,7 @@ import javafx.scene.control.Label;
 
 public class LoginController {
 
-    String puesto;
+    private String puesto;
     String departamento;
     private int id_trabajador;
 
@@ -46,13 +46,14 @@ public class LoginController {
             try {
                 // Verificar si el usuario existe
                 try (PreparedStatement checkUserStmt = con.prepareStatement(
-                        "SELECT Contraseña FROM trabajador WHERE id_Trabajador = ?")) {
+                        "SELECT * FROM trabajador WHERE id_Trabajador = ?")) {
                     checkUserStmt.setInt(1, usuario);
 
                     try (ResultSet userRs = checkUserStmt.executeQuery()) {
                         if (userRs.next()) {
                             // El usuario existe, verificar la contraseña
                             String correctPassword = userRs.getString("Contraseña");
+                            puesto= userRs.getString("Puesto");
                             if (contra.equals(correctPassword)) {
                                 // Credenciales válidas
                                 id_trabajador = usuario;
@@ -65,6 +66,7 @@ public class LoginController {
 
                                 FXMLController fxmlController = loader.getController();
                                 fxmlController.setId_trabajador(id_trabajador);
+                                fxmlController.setId_trabajador(puesto);
 
                                 Stage stage = new Stage();
                                 stage.setScene(new Scene(root));

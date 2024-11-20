@@ -14,12 +14,13 @@ import javafx.beans.property.SimpleStringProperty;
 public class ContenidoNotificacion {
 
     private final SimpleIntegerProperty id_Notificacion;
+    private final SimpleIntegerProperty id_trabajador;
     private final SimpleStringProperty descripcion;
     private final SimpleStringProperty fecha;
     private final SimpleStringProperty estado;
-
-    public ContenidoNotificacion(int id_Notificacion,  String fecha, String descripcion, String estado) {
+    public ContenidoNotificacion(int id_Notificacion,int id_trabajador,  String fecha, String descripcion, String estado) {
         this.id_Notificacion = new SimpleIntegerProperty(id_Notificacion);
+        this.id_trabajador = new SimpleIntegerProperty(id_trabajador);
         this.fecha = new SimpleStringProperty(fecha);
         this.descripcion = new SimpleStringProperty(descripcion);
         this.estado = new SimpleStringProperty(estado);
@@ -33,6 +34,14 @@ public class ContenidoNotificacion {
         return id_Notificacion;
     }
 
+        public int getId_trabajador() {
+        return id_trabajador.get();
+    }
+
+    public SimpleIntegerProperty Id_trabajadorProperty() {
+        return id_trabajador;
+    }
+    
     public String getDescripcion() {
         return descripcion.get();
     }

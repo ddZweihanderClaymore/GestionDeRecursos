@@ -81,6 +81,7 @@ public class tablaController {
         
         // Configurar columnas de la tabla utilizando PropertyValueFactory para enlazar propiedades del objeto tablaContenido.
         colIdMobiliario.setCellValueFactory(new PropertyValueFactory<>("id_Mobiliario"));
+        colIdMobiliario.setCellValueFactory(new PropertyValueFactory<>("id_Mobiliario"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
         colDescripcion.setCellValueFactory(new PropertyValueFactory<>("Descripcion"));
         colStock.setCellValueFactory(new PropertyValueFactory<>("Cantidad"));

@@ -32,7 +32,8 @@ public class FXMLController implements Initializable {
     private AnchorPane tabla;
     @FXML
     private TextField Usuario;
-    
+    @FXML
+    private TextField Puesto;    
 
     private int user;
     private int i=0;
@@ -51,6 +52,7 @@ public class FXMLController implements Initializable {
     @FXML
     private void Seleccionado(ActionEvent event) {
         int user = Integer.parseInt(Usuario.getText());
+        
         MenuItem selectedMenuItem = (MenuItem) event.getSource();
         String texto = selectedMenuItem.getText();
         System.out.println("Texto del MenuItem seleccionado: " + texto);
@@ -72,7 +74,8 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void btn_Notificacion(ActionEvent event) {
-       
+        MenuItem selectedMenuItem = (MenuItem) event.getSource();
+        String texto = selectedMenuItem.getText();
         
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Notificaciones/Notificacion.fxml"));
@@ -103,7 +106,7 @@ public class FXMLController implements Initializable {
                         } // Cambié setFileName a setUsuario
                     }
                     
-                          controller.setUsuario(cadenaUsuarios);  // Cambié setFileName a setUsuario
+                          controller.setUsuario(cadenaUsuarios, texto);  
 
                     
 
@@ -129,6 +132,16 @@ public class FXMLController implements Initializable {
         this.id_trabajador = id_trabajador;
          if (Usuario != null) {
             Usuario.setText(""+this.id_trabajador); 
+        }
+    }
+    
+        public int getPuesto() {
+        return id_trabajador;
+    }
+
+    public void setPuesto(String puesto) {
+         if (Puesto != null) {
+            Puesto.setText(puesto); 
         }
     }
 }
