@@ -181,10 +181,9 @@ public class FXMLController implements Initializable {
      * @param puesto El puesto a establecer.
      */
     public void setPuesto(String puesto) {
-        this.puesto = puesto;  
-        
+
         if (Puesto != null) {
-            Puesto.setText(this.puesto);  // Actualizar campo Puesto con el puesto establecido.
+            Puesto.setText(""+puesto);  // Actualizar campo Puesto con el puesto establecido.
         }
     }
 }

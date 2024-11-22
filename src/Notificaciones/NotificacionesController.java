@@ -13,6 +13,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 
 public class NotificacionesController {
 
@@ -20,6 +22,7 @@ public class NotificacionesController {
     private int usuario;                              // ID del usuario actual (no utilizado en este fragmento)
     private int trabajador;                           // ID del trabajador actual
     private String texto;                             // Texto que determina el tipo de notificación a cargar
+    private int id_selected = 0; // ID del mobiliario seleccionado en la tabla
     private List<Integer> cadenaUsuarios = new ArrayList<>(); // Lista de IDs de trabajadores
     private Connection con = JavaApplication1.getConnection(); // Conexión a la base de datos
     private ObservableList<ContenidoNotificacion> detalleReserva = FXCollections.observableArrayList(); // Lista observable para la tabla
@@ -37,7 +40,10 @@ public class NotificacionesController {
     private TableColumn<ContenidoNotificacion, Integer> colId_Notificacion; // Columna para el ID de la notificación
     @FXML
     private TableView<ContenidoNotificacion> tablaDetalleReserva;        // Tabla para mostrar las notificaciones
-
+    @FXML
+    private TextField id_select;
+    @FXML
+    private Pane paneFolioReserva;
     public NotificacionesController() {
         // Constructor vacío
     }
@@ -110,15 +116,13 @@ public class NotificacionesController {
      * @param trabajador El ID del trabajador cuyas notificaciones se van a cargar.
      */
     private void cargarDatosNotificaciones(String query, int trabajador) {
-        System.out.println("Procesando trabajador: " + trabajador);
         
         try (PreparedStatement pst = con.prepareStatement(query)) {
             pst.setInt(1, trabajador);  // Establecer el ID del trabajador en la consulta.
-            System.out.println("Ejecutando consulta: " + pst.toString());
 
             try (ResultSet rs = pst.executeQuery()) {
                 boolean hasResults = false;  // Bandera para verificar si hay resultados en la consulta.
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  // Formato de fecha.
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");  // Formato de fecha.
 
                 while (rs.next()) {  // Iterar sobre los resultados de la consulta.
                     hasResults = true;
@@ -169,5 +173,20 @@ public class NotificacionesController {
         colDescripcion.setCellValueFactory(cellData -> cellData.getValue().DescripcionProperty());
         colFecha.setCellValueFactory(cellData -> cellData.getValue().FechaProperty());
         colEstado.setCellValueFactory(cellData -> cellData.getValue().EstadoProperty());
+        
+        // Listener que actualiza el campo id_select cuando se selecciona un nuevo item en la tabla.
+        tablaDetalleReserva.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                id_selected = newValue.getId_Notificacion(); // Obtiene el ID del mobiliario seleccionado.
+                id_select.setText("" + id_selected); // Muestra el ID en el campo correspondiente.
+                
+                
+            }
+        });
+    }
+    
+    @FXML 
+    public void folioReserva(){
+        //Metodo que recibe id_Selected y que nos permite cargar un folio Reserva
     }
 }

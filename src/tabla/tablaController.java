@@ -36,6 +36,7 @@ public class tablaController {
     private String dia; // Día de la semana seleccionado
     private String fecha_Seleccionada; // Fecha seleccionada
     private String razon;
+    
 
     @FXML
     private TableView<tablaContenido> tablaMobiliario; // Tabla que muestra el contenido del mobiliario
@@ -59,20 +60,20 @@ public class tablaController {
     @FXML
     private TextField id_select; // Campo de texto que muestra el ID seleccionado
 
-    @FXML
-    private MenuItem razon1;
-    @FXML
-    private MenuItem razon2;
-    @FXML
-    private MenuItem razon3;
-    @FXML
-    private MenuItem razon4;
-    @FXML
-    private MenuItem razon5;
+  
     private ObservableList<tablaContenido> listaMobiliario = FXCollections.observableArrayList(); // Lista observable que contiene los datos del mobiliario
 
     @FXML
     private MenuButton menuRazon;
+    @FXML
+    private MenuButton menu_hhInicio;
+    @FXML
+    private MenuButton menu_mmInicio;
+    @FXML
+    private MenuButton menu_hhTermino;
+    @FXML
+    private MenuButton menu_mmTermino;
+ 
     Connection con = JavaApplication1.getConnection(); // Obtener conexión desde JavaApplication1.
 
     @FXML
@@ -94,11 +95,48 @@ public class tablaController {
             }
         });
 
-        razon1.setOnAction(event -> handleMenuSelection(razon1.getText()));
-        razon2.setOnAction(event -> handleMenuSelection(razon2.getText()));
-        razon3.setOnAction(event -> handleMenuSelection(razon3.getText()));
-        razon4.setOnAction(event -> handleMenuSelection(razon4.getText()));
-        razon5.setOnAction(event -> handleMenuSelection(razon5.getText()));
+            menuRazon.getItems().forEach(menuItem -> {
+            menuItem.setOnAction(event -> {
+                // Obtén el texto del MenuItem seleccionado
+                String selectedText = menuItem.getText();
+                // Opcional: Actualiza el texto del MenuButton
+                menuRazon.setText(selectedText);
+            });
+        });
+        
+        
+             menu_hhInicio.getItems().forEach(menuItem -> {
+            menuItem.setOnAction(event -> {
+                // Obtén el texto del MenuItem seleccionado
+                String selectedText = menuItem.getText();
+                // Opcional: Actualiza el texto del MenuButton
+                menu_hhInicio.setText(selectedText);
+            });
+        });
+            menu_mmInicio.getItems().forEach(menuItem -> {
+            menuItem.setOnAction(event -> {
+                // Obtén el texto del MenuItem seleccionado
+                String selectedText = menuItem.getText();
+                // Opcional: Actualiza el texto del MenuButton
+                menu_mmInicio.setText(selectedText);
+            });
+        });
+             menu_hhTermino.getItems().forEach(menuItem -> {
+            menuItem.setOnAction(event -> {
+                // Obtén el texto del MenuItem seleccionado
+                String selectedText = menuItem.getText();
+                // Opcional: Actualiza el texto del MenuButton
+                menu_hhTermino.setText(selectedText);
+            });
+        });
+             menu_mmTermino.getItems().forEach(menuItem -> {
+            menuItem.setOnAction(event -> {
+                // Obtén el texto del MenuItem seleccionado
+                String selectedText = menuItem.getText();
+                // Opcional: Actualiza el texto del MenuButton
+                menu_mmTermino.setText(selectedText);
+            });
+        });
     }
 
     private void realizarConsulta() {
@@ -138,10 +176,10 @@ public class tablaController {
 
     @FXML
     void btnCrearReserva(ActionEvent event) {
-
+        
         LocalDate fecha = calendario1.getValue(); // Obtener la fecha seleccionada desde el DatePicker
-        hora_Inicio = Hora_inicio.getText();  // Obtener hora de inicio desde el campo correspondiente.
-        hora_Fin = Hora_Termino.getText();   // Obtener hora de fin desde el campo correspondiente.
+        hora_Inicio = menu_hhInicio.getText()+":"+menu_mmInicio.getText();  // Obtener hora de inicio desde el campo correspondiente.
+        hora_Fin = menu_hhTermino.getText()+":"+menu_mmTermino.getText();   // Obtener hora de fin desde el campo correspondiente.
 
         if (fecha != null && hora_Inicio != null && hora_Fin != null && id_selected != 0) {  // Verificar que se ha seleccionado una fecha válida.
             dia = fecha.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault());
@@ -161,8 +199,6 @@ public class tablaController {
 
     }
 
-    private void handleMenuSelection(String text) {
-        menuRazon.setText(text);
-        razon = text;
-    }
+
+
 }

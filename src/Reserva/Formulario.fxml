@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="640.0" maxWidth="553.0" minHeight="640.0" minWidth="553.0" prefHeight="640.0" prefWidth="553.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Reserva.FormularioController">
+   <children>
+      <Label layoutX="17.0" layoutY="144.0" text="NOMBRE:" />
+      <TextField fx:id="tf_EmpleadoNombre" editable="false" layoutX="79.0" layoutY="140.0" prefHeight="25.0" prefWidth="146.0" />
+      <TextField fx:id="tf_EmpleadoApellidoP" editable="false" layoutX="233.0" layoutY="140.0" prefHeight="25.0" prefWidth="165.0" />
+      <TextField fx:id="tf_EmpleadoApellidoM" editable="false" layoutX="404.0" layoutY="140.0" prefHeight="25.0" prefWidth="146.0" />
+      <TextField fx:id="tf_EmpleadoCorreo" editable="false" layoutX="79.0" layoutY="178.0" prefHeight="25.0" prefWidth="188.0" />
+      <TextField fx:id="tf_EmpleadoTelefono" editable="false" layoutX="362.0" layoutY="178.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label layoutX="126.0" layoutY="14.0" prefHeight="32.0" prefWidth="302.0" text="FORMULARIO DE RESERVA">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tf_Folio" editable="false" layoutX="79.0" layoutY="267.0" prefHeight="25.0" prefWidth="86.0" />
+      <Label layoutX="18.0" layoutY="182.0" text="CORREO:" />
+      <Label layoutX="292.0" layoutY="182.0" text="TELEFONO:" />
+      <Label layoutX="9.0" layoutY="77.0" text="EMPLEADO: " />
+      <Label layoutX="19.0" layoutY="111.0" text="PUESTO:" />
+      <Label layoutX="305.0" layoutY="111.0" text="DEPARTAMENTO:" />
+      <Label layoutX="222.0" layoutY="271.0" text="FECHA DE SOLICITUD: " />
+      <TextField fx:id="tf_FolioFecha" editable="false" layoutX="346.0" layoutY="267.0" prefHeight="25.0" prefWidth="146.0" />
+      <TextField fx:id="tf_Empleado" editable="false" layoutX="79.0" layoutY="73.0" prefHeight="25.0" prefWidth="86.0" />
+      <TextField fx:id="tf_EmpleadoPuesto" editable="false" layoutX="79.0" layoutY="107.0" prefHeight="26.0" prefWidth="219.0" />
+      <Label layoutX="24.0" layoutY="271.0" text="FOLIO:" />
+      <TextField fx:id="tf_EmpleadoDepartamento" editable="false" layoutX="407.0" layoutY="107.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label layoutX="2.0" layoutY="312.0" text="MOBILIARIO:" />
+      <Label layoutX="215.0" layoutY="312.0" text="NOMBRE:" />
+      <Label layoutX="1.0" layoutY="357.0" text="DESCRIPCIÓN:" />
+      <Label layoutX="371.0" layoutY="357.0" text="TIPO:" />
+      <Label layoutX="6.0" layoutY="407.0" text="HORA DE INICIO:" />
+      <Label layoutX="179.0" layoutY="407.0" text="HORA DE TERMINO:" />
+      <Label layoutX="374.0" layoutY="407.0" text="DIA:" />
+      <Label layoutX="12.0" layoutY="453.0" text="MOTIVO:" />
+      <Label layoutX="340.0" layoutY="453.0" text="ESTADO:" />
+      <TextField fx:id="tf_FolioMobiliario" editable="false" layoutX="79.0" layoutY="308.0" prefHeight="25.0" prefWidth="86.0" />
+      <TextField fx:id="tf_FolioNombre" editable="false" layoutX="270.0" layoutY="306.0" prefHeight="29.0" prefWidth="248.0" />
+      <TextField fx:id="tf_FolioDescripcion" editable="false" layoutX="79.0" layoutY="353.0" prefHeight="25.0" prefWidth="270.0" />
+      <TextField fx:id="tf_FolioTipo" editable="false" layoutX="404.0" layoutY="353.0" prefHeight="25.0" prefWidth="127.0" />
+      <TextField fx:id="tf_FolioInicio" editable="false" layoutX="101.0" layoutY="403.0" prefHeight="25.0" prefWidth="74.0" />
+      <TextField fx:id="tf_FolioTermino" editable="false" layoutX="292.0" layoutY="403.0" prefHeight="25.0" prefWidth="74.0" />
+      <TextField fx:id="tf_FolioDia" editable="false" layoutX="407.0" layoutY="403.0" prefHeight="25.0" prefWidth="121.0" />
+      <TextField fx:id="tf_FolioMotivo" editable="false" layoutX="75.0" layoutY="449.0" prefHeight="25.0" prefWidth="254.0" />
+      <TextField fx:id="tf_FolioEstado" editable="false" layoutX="407.0" layoutY="449.0" prefHeight="25.0" prefWidth="121.0" />
+      <Label layoutX="11.0" layoutY="503.0" text="EMPLEADO:" />
+      <Label layoutX="19.0" layoutY="539.0" text="PUESTO:" />
+      <Label layoutX="17.0" layoutY="575.0" text="NOMBRE:" />
+      <TextField fx:id="tf_AprobadoNombre" editable="false" layoutX="79.0" layoutY="574.0" prefHeight="25.0" prefWidth="145.0" />
+      <TextField fx:id="tf_AprobadoApellidoP" editable="false" layoutX="240.0" layoutY="574.0" prefHeight="25.0" prefWidth="146.0" />
+      <TextField fx:id="tf_AprobadoApellidoM" editable="false" layoutX="395.0" layoutY="574.0" prefHeight="25.0" prefWidth="146.0" />
+      <TextField fx:id="tf_Aprobado" editable="false" layoutX="83.0" layoutY="499.0" prefHeight="25.0" prefWidth="86.0" />
+      <TextField fx:id="tf_AprobadoPuesto" editable="false" layoutX="79.0" layoutY="535.0" prefHeight="25.0" prefWidth="219.0" />
+      <Label layoutX="302.0" layoutY="539.0" text="DEPARTAMENTO:" />
+      <TextField fx:id="tf_AprobadoDepartamento" editable="false" layoutX="407.0" layoutY="535.0" prefHeight="25.0" prefWidth="140.0" />
+      <Separator layoutX="105.0" layoutY="48.0" prefHeight="3.0" prefWidth="314.0" />
+      <Separator layoutX="4.0" layoutY="227.0" prefHeight="17.0" prefWidth="203.0" />
+      <Separator layoutX="16.0" layoutY="486.0" prefHeight="10.0" prefWidth="203.0" />
+      <Label layoutX="223.0" layoutY="482.0" text="VALIDADO POR">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Separator layoutX="315.0" layoutY="486.0" prefHeight="10.0" prefWidth="219.0" />
+      <Separator layoutX="322.0" layoutY="227.0" prefHeight="17.0" prefWidth="219.0" />
+      <Label layoutX="219.0" layoutY="227.0" text="DETALLE RESERVA">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="13.0" layoutY="611.0" text="COMENTARIO:" />
+      <TextField fx:id="tf_Comentario" editable="false" layoutX="100.0" layoutY="607.0" prefHeight="25.0" prefWidth="446.0" />
+   </children>
+</AnchorPane>

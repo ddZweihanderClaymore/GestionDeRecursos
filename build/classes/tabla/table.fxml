@@ -39,13 +39,13 @@
                      <Font size="17.0" />
                   </font>
                </Button>
-               <TextField fx:id="Hora_inicio" layoutX="190.0" layoutY="201.0" prefHeight="25.0" prefWidth="261.0" />
+               <TextField fx:id="Hora_inicio" layoutX="191.0" layoutY="167.0" prefHeight="25.0" prefWidth="261.0" />
                <Text fill="#fcfafa" layoutX="114.0" layoutY="248.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hora Termino" wrappingWidth="299.13671875" />
-               <TextField fx:id="Hora_Termino" layoutX="190.0" layoutY="244.0" prefHeight="25.0" prefWidth="261.0" />
+               <TextField fx:id="Hora_Termino" layoutX="192.0" layoutY="265.0" prefHeight="25.0" prefWidth="261.0" />
                <Label layoutX="155.0" layoutY="79.0" text="id: " />
                <TextField fx:id="id_select" editable="false" layoutX="190.0" layoutY="75.0" prefHeight="25.0" prefWidth="261.0" />
-               <Label layoutX="83.0" layoutY="205.0" text="Hora de inicio: " />
-               <Label layoutX="76.0" layoutY="248.0" text="Hora de termino: " />
+               <Label layoutX="171.0" layoutY="214.0" text="Hora de inicio: " />
+               <Label layoutX="155.0" layoutY="244.0" text="Hora de termino: " />
                <DatePicker fx:id="calendario1" layoutX="217.0" layoutY="129.0" prefHeight="38.0" prefWidth="208.0" />
                <MenuButton fx:id="menuRazon" alignment="CENTER" layoutX="190.0" layoutY="292.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="261.0" text="Razon de la Reserva">
                   <items>
@@ -54,6 +54,80 @@
                      <MenuItem fx:id="razon3" mnemonicParsing="false" text="Evento especial" />
                      <MenuItem fx:id="razon4" mnemonicParsing="false" text="Uso de pruebas" />
                      <MenuItem fx:id="razon5" mnemonicParsing="false" text="Reposicion de equipo" />
+                  </items>
+               </MenuButton>
+               <MenuButton fx:id="menu_hhInicio" alignment="TOP_LEFT" layoutX="259.0" layoutY="210.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="63.0" text="HH">
+                 <items>
+                     <MenuItem mnemonicParsing="false" text="06" />
+                     <MenuItem mnemonicParsing="false" text="07" />
+                   <MenuItem mnemonicParsing="false" text="08" />
+                   <MenuItem mnemonicParsing="false" text="09" />
+                     <MenuItem mnemonicParsing="false" text="10" />
+                     <MenuItem mnemonicParsing="false" text="11" />
+                     <MenuItem mnemonicParsing="false" text="12" />
+                     <MenuItem mnemonicParsing="false" text="13" />
+                     <MenuItem mnemonicParsing="false" text="14" />
+                     <MenuItem mnemonicParsing="false" text="15" />
+                     <MenuItem mnemonicParsing="false" text="16" />
+                     <MenuItem mnemonicParsing="false" text="17" />
+                     <MenuItem mnemonicParsing="false" text="18" />
+                     <MenuItem mnemonicParsing="false" text="19" />
+                     <MenuItem mnemonicParsing="false" text="20" />
+                     <MenuItem mnemonicParsing="false" text="21" />
+                     <MenuItem mnemonicParsing="false" text="22" />
+                 </items>
+               </MenuButton>
+               <MenuButton fx:id="menu_mmInicio" layoutX="339.0" layoutY="210.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="63.0" text="MM">
+                  <items>
+                     <MenuItem mnemonicParsing="false" text="00" />
+                     <MenuItem mnemonicParsing="false" text="05" />
+                     <MenuItem mnemonicParsing="false" text="10" />
+                     <MenuItem mnemonicParsing="false" text="15" />
+                     <MenuItem mnemonicParsing="false" text="20" />
+                     <MenuItem mnemonicParsing="false" text="10" />
+                     <MenuItem mnemonicParsing="false" text="30" />
+                     <MenuItem mnemonicParsing="false" text="35" />
+                     <MenuItem mnemonicParsing="false" text="40" />
+                     <MenuItem mnemonicParsing="false" text="45" />
+                     <MenuItem mnemonicParsing="false" text="50" />
+                     <MenuItem mnemonicParsing="false" text="55" />
+                  </items>
+               </MenuButton>
+               <MenuButton fx:id="menu_hhTermino" alignment="TOP_LEFT" layoutX="259.0" layoutY="239.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="63.0" text="HH">
+                  <items>
+                     <MenuItem mnemonicParsing="false" text="06" />
+                     <MenuItem mnemonicParsing="false" text="07" />
+                     <MenuItem mnemonicParsing="false" text="08" />
+                     <MenuItem mnemonicParsing="false" text="09" />
+                     <MenuItem mnemonicParsing="false" text="10" />
+                     <MenuItem mnemonicParsing="false" text="11" />
+                     <MenuItem mnemonicParsing="false" text="12" />
+                     <MenuItem mnemonicParsing="false" text="13" />
+                     <MenuItem mnemonicParsing="false" text="14" />
+                     <MenuItem mnemonicParsing="false" text="15" />
+                     <MenuItem mnemonicParsing="false" text="16" />
+                     <MenuItem mnemonicParsing="false" text="17" />
+                     <MenuItem mnemonicParsing="false" text="18" />
+                     <MenuItem mnemonicParsing="false" text="19" />
+                     <MenuItem mnemonicParsing="false" text="20" />
+                     <MenuItem mnemonicParsing="false" text="21" />
+                     <MenuItem mnemonicParsing="false" text="22" />
+                  </items>
+               </MenuButton>
+               <MenuButton fx:id="menu_mmTermino" layoutX="339.0" layoutY="239.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="63.0" text="MM">
+                  <items>
+                     <MenuItem mnemonicParsing="false" text="00" />
+                     <MenuItem mnemonicParsing="false" text="05" />
+                     <MenuItem mnemonicParsing="false" text="10" />
+                     <MenuItem mnemonicParsing="false" text="15" />
+                     <MenuItem mnemonicParsing="false" text="20" />
+                     <MenuItem mnemonicParsing="false" text="10" />
+                     <MenuItem mnemonicParsing="false" text="30" />
+                     <MenuItem mnemonicParsing="false" text="35" />
+                     <MenuItem mnemonicParsing="false" text="40" />
+                     <MenuItem mnemonicParsing="false" text="45" />
+                     <MenuItem mnemonicParsing="false" text="50" />
+                     <MenuItem mnemonicParsing="false" text="55" />
                   </items>
                </MenuButton>
             </children>
