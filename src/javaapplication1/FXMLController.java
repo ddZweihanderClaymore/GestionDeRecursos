@@ -37,7 +37,10 @@ public class FXMLController implements Initializable {
     private TextField Usuario;      // Campo para ingresar el ID del usuario
     @FXML
     private TextField Puesto;       // Campo para mostrar el puesto del usuario
-
+    @FXML
+    private MenuItem MI_PorValidar;
+    @FXML
+    private MenuItem MI_Todos;
     // Variables privadas para la lógica del controlador
     private int user;                // ID del usuario actual
     private int i = 0;               // Contador auxiliar
@@ -108,7 +111,7 @@ public class FXMLController implements Initializable {
                 if (con != null) {  // Verificar si se ha establecido una conexión.
                     Statement st = con.createStatement();
                     user = Integer.parseInt(Usuario.getText());  // Obtener el ID del usuario
-                    
+                    cadenaUsuarios.add(user);
                     ResultSet rs = st.executeQuery("SELECT * FROM trabajador WHERE id_Trabajador = '" + user + "'");
                     
                     while (rs.next()) {
@@ -116,8 +119,8 @@ public class FXMLController implements Initializable {
                         departamento = rs.getInt("id_Departamento");
                     }
                     
+                    
                     if (puesto.equals("Gerente") || puesto.equals("Gestor de activos")) {
-                        System.out.println("Entro al if");
                         
                         ResultSet rsCadena = st.executeQuery("SELECT * FROM trabajador WHERE id_Departamento = '" + departamento + "'"); 
                         
@@ -183,6 +186,10 @@ public class FXMLController implements Initializable {
     public void setPuesto(String puesto) {
 
         if (Puesto != null) {
+            if (puesto.equals("Gerente") || puesto.equals("Gestor de activos")) {
+                        MI_PorValidar.setVisible(true);
+                        MI_Todos.setVisible(true);
+            }
             Puesto.setText(""+puesto);  // Actualizar campo Puesto con el puesto establecido.
         }
     }

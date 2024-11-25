@@ -99,17 +99,18 @@
                                     </ImageView>
                                  </graphic>
                               </Menu>
-                              <Menu mnemonicParsing="false" text="Notificaciones">
+                              <Menu mnemonicParsing="false" text="Reservas">
                                  <items>
                                     <MenuItem mnemonicParsing="false" onAction="#btn_Notificacion" text="Mis reservas" />
                                     <MenuItem mnemonicParsing="false" onAction="#btn_Notificacion" text="Validado" />
                                     <MenuItem mnemonicParsing="false" onAction="#btn_Notificacion" text="Rechazada" />
-                                    <MenuItem mnemonicParsing="false" onAction="#btn_Notificacion" text="Por validar" visible="false" />
+                                    <MenuItem fx:id="MI_PorValidar" mnemonicParsing="false" onAction="#btn_Notificacion" text="Por validar" visible="false" />
+                                    <MenuItem fx:id="MI_Todos" mnemonicParsing="false" onAction="#btn_Notificacion" text="Todos" />
                                  </items>
                                  <graphic>
                                     <ImageView fitHeight="58.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../image/icons8-recordatorios-de-citas-40.png" />
+                                          <Image url="@../image/pngwing.com%20(5).png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -120,7 +121,7 @@
                         <TextField fx:id="Usuario" editable="false" layoutX="173.0" layoutY="10.0" opacity="0.28" prefHeight="17.0" prefWidth="90.0" />
                         <Separator layoutX="296.0" layoutY="13.0" orientation="VERTICAL" prefHeight="53.0" prefWidth="21.0" />
                         <Label fx:id="user1" layoutX="127.0" layoutY="47.0" text="Puesto: " />
-                        <TextField fx:id="puesto" editable="false" layoutX="170.0" layoutY="43.0" opacity="0.28" prefHeight="17.0" prefWidth="119.0" />
+                        <TextField fx:id="Puesto" editable="false" layoutX="170.0" layoutY="43.0" opacity="0.28" prefHeight="17.0" prefWidth="119.0" />
                         <ImageView fitHeight="73.0" fitWidth="102.0" layoutX="38.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/man_4140048.png" />

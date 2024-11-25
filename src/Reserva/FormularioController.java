@@ -168,10 +168,12 @@ public class FormularioController {
                           comentario= rs_reserva.getString("Comentario");
                           
                       }
+                      if(hasResults){
                       tf_Folio.setText(""+id_Reserva);
                       trabajador( id_Trabajador);
                       tf_Aprobado.setText(""+id_Trabajador);
                       tf_Comentario.setText(""+comentario);
+                     }
                   }
 
             } catch (SQLException e) {
@@ -266,7 +268,7 @@ public class FormularioController {
 
         
         public void Horario(int id_Horario){
-        String queryHorario = "SELECT * FROM mobiliario WHERE id_Mobiliario = ?";
+        String queryHorario = "SELECT * FROM horario WHERE id_Horario = ?";
             try (PreparedStatement pst_Horario = con.prepareStatement(queryHorario)) {
                 pst_Horario.setInt(1, id_Horario);  // Establecer el ID del folio en la consulta.
                   try (ResultSet rs_Horario = pst_Horario.executeQuery()) {
@@ -286,12 +288,13 @@ public class FormularioController {
             }
     }
         public void departamento(int id_Departamento){
-        String querydepartamento = "SELECT * FROM mobiliario WHERE id_Mobiliario = ?";
+        String querydepartamento = "SELECT * FROM departamento WHERE id_Departamento = ?";
             try (PreparedStatement pst_departamento = con.prepareStatement(querydepartamento)) {
+                System.out.println("Departamento: "+id_Departamento);
                 pst_departamento.setInt(1, id_Departamento);  // Establecer el ID del folio en la consulta.
                   try (ResultSet rs_departamento = pst_departamento.executeQuery()) {
                       while (rs_departamento.next()) {  // Iterar sobre los resultados de la consulta.
-                          nombreDepartamento= rs_departamento.getString("Dia_Semana");
+                          nombreDepartamento= rs_departamento.getString("Nombre");
                       }
                   }
                   if(hasResults){

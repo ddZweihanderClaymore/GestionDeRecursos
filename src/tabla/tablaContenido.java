@@ -13,7 +13,6 @@ public class tablaContenido {
     private final SimpleIntegerProperty id_Mobiliario;  // ID del mobiliario
     private final SimpleStringProperty Nombre;            // Nombre del mobiliario
     private final SimpleStringProperty Descripcion;       // Descripción del mobiliario
-    private final SimpleStringProperty Cantidad;          // Cantidad disponible del mobiliario
 
     /**
      * Constructor de la clase tablaContenido.
@@ -23,11 +22,10 @@ public class tablaContenido {
      * @param Descripcion   Descripción del mobiliario.
      * @param Cantidad      Cantidad disponible del mobiliario.
      */
-    public tablaContenido(int id_Mobiliario, String Nombre, String Descripcion, String Cantidad) {
+    public tablaContenido(int id_Mobiliario, String Nombre, String Descripcion) {
         this.id_Mobiliario = new SimpleIntegerProperty(id_Mobiliario);  // Inicializa el ID del mobiliario
         this.Nombre = new SimpleStringProperty(Nombre);                  // Inicializa el nombre del mobiliario
-        this.Descripcion = new SimpleStringProperty(Descripcion);        // Inicializa la descripción del mobiliario
-        this.Cantidad = new SimpleStringProperty(Cantidad);              // Inicializa la cantidad disponible
+        this.Descripcion = new SimpleStringProperty(Descripcion);        // Inicializa la descripción del mobiliario            // Inicializa la cantidad disponible
     }
 
     /**
@@ -84,21 +82,4 @@ public class tablaContenido {
         return Descripcion;  // Retorna la propiedad de la descripción
     }
 
-    /**
-     * Obtiene la cantidad disponible del mobiliario.
-     *
-     * @return La cantidad disponible.
-     */
-    public String getCantidad() { 
-        return Cantidad.get();  // Retorna el valor de la cantidad
-    }
-
-    /**
-     * Obtiene la propiedad de la cantidad disponible del mobiliario.
-     *
-     * @return La propiedad de la cantidad.
-     */
-    public SimpleStringProperty cantidadProperty() { 
-        return Cantidad;  // Retorna la propiedad de la cantidad
-    }
 }
