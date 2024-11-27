@@ -33,12 +33,13 @@
                         <Insets left="10.0" top="5.0" />
                      </padding>
                   </TableView>
-                  <Button fx:id="editar" layoutX="52.0" layoutY="568.0" mnemonicParsing="false" onAction="#btn_Editar" prefHeight="42.0" prefWidth="189.0" text="Editar" />
-                  <Button fx:id="eliminar" layoutX="261.0" layoutY="568.0" mnemonicParsing="false" onAction="#btn_Eliminar" prefHeight="42.0" prefWidth="189.0" text="Eliminar" />
+                  <Button fx:id="editar" layoutX="261.0" layoutY="568.0" mnemonicParsing="false" onAction="#btn_Editar" prefHeight="42.0" prefWidth="189.0" text="Editar" />
+                  <Button fx:id="eliminar" layoutX="49.0" layoutY="568.0" mnemonicParsing="false" onAction="#btn_Eliminar" prefHeight="42.0" prefWidth="189.0" text="Eliminar" />
                   <Label layoutX="37.0" layoutY="527.0" prefHeight="26.0" prefWidth="42.0" text="FOLIO:" />
                   <TextField fx:id="id_select" editable="false" layoutX="79.0" layoutY="527.0" prefHeight="26.0" prefWidth="170.0" />
-                  <Button fx:id="Aprobar" layoutX="52.0" layoutY="568.0" mnemonicParsing="false" onAction="#Aprobar" prefHeight="42.0" prefWidth="163.0" text="Aprobar" visible="false" />
+                  <Button fx:id="Aprobar" layoutX="62.0" layoutY="568.0" mnemonicParsing="false" onAction="#Aprobar" prefHeight="42.0" prefWidth="163.0" text="Aprobar" visible="false" />
                   <TextArea fx:id="comentario" layoutX="375.0" layoutY="522.0" prefHeight="93.0" prefWidth="389.0" visible="false" />
+                  <Button fx:id="btn_Rechazar" layoutX="274.0" layoutY="568.0" mnemonicParsing="false" onAction="#btn_Rechazar" prefHeight="42.0" prefWidth="163.0" text="Rechazar" visible="false" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="panefolioReserva" maxHeight="630.0" maxWidth="557.0" minHeight="630.0" minWidth="373.0" onDragDetected="#folioReserva" prefHeight="630.0" prefWidth="557.0">

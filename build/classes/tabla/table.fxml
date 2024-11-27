@@ -144,7 +144,10 @@
                   </font>
                </Label>
                <Label layoutX="157.0" layoutY="172.0" text="Registra la fecha:" />
-               <TextArea fx:id="noDisponible" editable="false" layoutX="202.0" layoutY="371.0" prefHeight="104.0" prefWidth="336.0" visible="false" />
+               <TextArea fx:id="noDisponible" editable="false" layoutX="202.0" layoutY="371.0" prefHeight="104.0" prefWidth="336.0" visible="false">
+                  <font>
+                     <Font name="System Italic" size="18.0" />
+                  </font></TextArea>
             </children>
          </AnchorPane>
       </items>

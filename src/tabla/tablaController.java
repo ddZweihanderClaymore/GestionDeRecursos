@@ -42,6 +42,7 @@ public class tablaController {
     private String fecha_Seleccionada; // Fecha seleccionada
     private String razon;
     private String textoArea;
+    Alert alerta;
 
     @FXML
     private TableView<tablaContenido> tablaMobiliario; // Tabla que muestra el contenido del mobiliario
@@ -74,8 +75,8 @@ public class tablaController {
     private MenuButton menu_hhTermino;
     @FXML
     private MenuButton menu_mmTermino;
-    private List<Integer> cadenaFecha = new ArrayList<>(); 
-    
+    private List<Integer> cadenaFecha;
+
     Connection con = JavaApplication1.getConnection(); // Obtener conexión desde JavaApplication1.
 
     @FXML
@@ -90,23 +91,35 @@ public class tablaController {
         // Listener que actualiza el campo id_select cuando se selecciona un nuevo item en la tabla.
         tablaMobiliario.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
+                noDisponible.setVisible(false);
+                noDisponible.setText(null);
+
                 id_selected = newValue.getId_Mobiliario(); // Obtiene el ID del mobiliario seleccionado.
                 id_select.setText("" + id_selected); // Muestra el ID en el campo correspondiente.
+                calendario1.setValue(null);
+                menu_hhInicio.setText("HH");
+                menu_mmInicio.setText("MM");
+                menu_hhTermino.setText("HH");
+                menu_mmTermino.setText("MM");
+                menuRazon.setText("Razon de la Reserva");
             }
         });
-        
+
         calendario1.setOnAction(event -> {
+            noDisponible.setVisible(false);
+            noDisponible.setText(null);
             LocalDate fechaSeleccionada = calendario1.getValue();
             FechaSeleccionada(fechaSeleccionada);
+
         });
-        
+
         menuRazon.getItems().forEach(menuItem -> {
             menuItem.setOnAction(event -> {
                 // Obtén el texto del MenuItem seleccionado
                 String selectedText = menuItem.getText();
                 // Opcional: Actualiza el texto del MenuButton
                 menuRazon.setText(selectedText);
-                
+
             });
         });
 
@@ -165,7 +178,9 @@ public class tablaController {
                 rs.close(); // Cerrar el ResultSet después de usarlo.
             }
         } catch (SQLException e) {
-            System.err.println("Error al realizar la consulta: " + e.getMessage()); // Manejo básico de errores en caso de fallos en la consulta.
+            alerta = new Alert(Alert.AlertType.ERROR, "Error al realizar la consulta: " + e.getMessage());
+            alerta.showAndWait();
+
         }
     }
 
@@ -180,100 +195,42 @@ public class tablaController {
 
     @FXML
     void btnCrearReserva(ActionEvent event) {
-
         LocalDate fecha = calendario1.getValue(); // Obtener la fecha seleccionada desde el DatePicker
         LocalDate fechaActual = LocalDate.now();
-      if (fecha.isAfter(fechaActual) || fecha.isEqual(fechaActual.plusDays(1))) {
 
+        if (fecha.isAfter(fechaActual) || fecha.isEqual(fechaActual.plusDays(1))) {
+            hora_Inicio = menu_hhInicio.getText() + ":" + menu_mmInicio.getText(); // Obtener hora de inicio
+            hora_Fin = menu_hhTermino.getText() + ":" + menu_mmTermino.getText(); // Obtener hora de fin
 
-            hora_Inicio = menu_hhInicio.getText() + ":" + menu_mmInicio.getText();  // Obtener hora de inicio desde el campo correspondiente.
-            hora_Fin = menu_hhTermino.getText() + ":" + menu_mmTermino.getText();   // Obtener hora de fin desde el campo correspondiente.
-
-            if (fecha != null && hora_Inicio != null && hora_Fin != null && id_selected != 0) {  // Verificar que se ha seleccionado una fecha válida.
+            if (fecha != null && hora_Inicio != null && hora_Fin != null && id_selected != 0) { // Verificar que se ha seleccionado una fecha válida.
                 dia = fecha.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault());
                 fecha_Seleccionada = fecha.toString();
-                boolean validarHorario = FechaSeleccionada();
+
+                boolean validarHorario = FechaSeleccionada(); // Verifica si hay un horario ocupado
+
                 if (validarHorario) {
                     Alert alerta = new Alert(Alert.AlertType.CONFIRMATION, "Horario Ocupado");
+                    alerta.showAndWait(); // Muestra la alerta si el horario está ocupado
                 } else {
                     Insert dato = new Insert();
-                     razon=menuRazon.getText();
-                    dato.insertarHorario(hora_Inicio, hora_Fin, dia, fecha_Seleccionada, id_selected, razon, usuario);
+                    razon = menuRazon.getText();
+                    dato.insertarHorario(hora_Inicio, hora_Fin, dia, fecha_Seleccionada, id_selected, razon, usuario); // Realiza el insert solo si no hay conflicto
                 }
-                JOptionPane.showInternalMessageDialog(null, "Se ha creado su reserva");  // Mostrar un diálogo interno con mensaje.
-
-                Alert alerta = new Alert(Alert.AlertType.CONFIRMATION, "Se ha creado su reserva");  // Crear una alerta confirmando que se ha creado la reserva.
-                alerta.showAndWait();  // Mostrar la alerta y esperar a que sea cerrada por el usuario.
             } else {
-                System.out.println("No se ha seleccionado ninguna fecha.");
-                // Mensaje en consola si no hay fecha seleccionada.
-            }
+                alerta = new Alert(Alert.AlertType.ERROR, "No se ha seleccionado ninguna fecha.");
+                alerta.showAndWait();
 
+            }
+        } else {
+            alerta = new Alert(Alert.AlertType.ERROR, "Debe realizar su recerba con al menos un dia de anticipacion.");
+            alerta.showAndWait();
         }
     }
 
     private boolean FechaSeleccionada() {
+        cadenaFecha = new ArrayList<>();
         LocalDate fecha = calendario1.getValue();
         try {
-            String[] divInicio = null;
-            String horaTermino = null;
-            String[] divTermino = null;
-            String cadFecha;
-            Integer cad;
-            cadenaFecha = null;
-            if (con != null) { // Verificar si se ha establecido una conexión.
-                Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery("SELECT * FROM detalleReserva WHERE id_Mobiliario = '" + id_selected + "'");
-
-                while (rs.next()) {
-                    int idMobiliario = rs.getInt("id_Horario");
-                    cadenaFecha.add(idMobiliario);
-                }
-                if (cadenaFecha != null) {
-                    
-                    for (int i = 0; i < cadenaFecha.size(); i++) {
-                        ResultSet rsFecha = st.executeQuery("SELECT * FROM horario WHERE id_Horario = '" + cadenaFecha.get(i)+ "'");
-                        while (rsFecha.next()) {
-                            String hora = rsFecha.getString("Hora_inicio");
-                            horaTermino = rsFecha.getString("Hora_Termino");
-                            
-                            if(validarHora(hora,horaTermino)){
-                                return true;
-                            }
-                        }
-                        rsFecha.close();
-                    }
-                }
-                st.close();
-                rs.close(); // Cerrar el ResultSet después de usarlo.
-            }
-        } catch (SQLException e) {
-            System.err.println("Error al realizar la consulta: " + e.getMessage()); // Manejo básico de errores en caso de fallos en la consulta.
-        }
-        return false;
-    }
-    
-    public boolean validarHora(String hora,String horaTermino){
-         LocalTime inicioExistenteTime = LocalTime.parse(hora);
-    LocalTime terminoExistenteTime = LocalTime.parse(horaTermino);
-    LocalTime inicioNuevoTime = LocalTime.parse(hora_Inicio);
-    LocalTime terminoNuevoTime = LocalTime.parse(hora_Fin);
-    return (inicioNuevoTime.isBefore(terminoExistenteTime) && terminoNuevoTime.isAfter(inicioExistenteTime));
-    }
-
-    private void FechaSeleccionada(LocalDate fechaSeleccionada) {
-         textoArea=null;
-         noDisponible.clear();
-         String agregar;
-         noDisponible.setText("Horarios no disponibles en la fecha:"+ fechaSeleccionada);
-         textoArea= noDisponible.getText();
-        try {
-            String[] divInicio = null;
-            String horaTermino = null;
-            String[] divTermino = null;
-            String cadFecha;
-            Integer cad;
-            cadenaFecha = null;
             if (con != null) { // Verificar si se ha establecido una conexión.
                 Statement st = con.createStatement();
                 ResultSet rs = st.executeQuery("SELECT * FROM detalle_reserva WHERE id_Mobiliario = '" + id_selected + "'");
@@ -282,17 +239,69 @@ public class tablaController {
                     int idMobiliario = rs.getInt("id_Horario");
                     cadenaFecha.add(idMobiliario);
                 }
-                if (cadenaFecha != null) {
+
+                for (int i = 0; i < cadenaFecha.size(); i++) {
+                    ResultSet rsFecha = st.executeQuery("SELECT * FROM horario WHERE id_Horario = '" + cadenaFecha.get(i) + "'");
+                    while (rsFecha.next()) {
+                        String hora = rsFecha.getString("Hora_inicio");
+                        String horaTermino = rsFecha.getString("Hora_Termino");
+
+                        // Verifica si el nuevo horario se superpone con el existente
+                        if (validarHora(hora, horaTermino)) {
+                            return true; // Horario ocupado
+                        }
+                    }
+                    rsFecha.close();
+                }
+                st.close();
+                rs.close(); // Cerrar el ResultSet después de usarlo.
+            }
+        } catch (SQLException e) {
+            alerta = new Alert(Alert.AlertType.ERROR, "Error al realizar la consulta: " + e.getMessage());
+            alerta.showAndWait();
+        }
+        return false; // Horario disponible
+    }
+
+    public boolean validarHora(String hora, String horaTermino) {
+        LocalTime inicioExistenteTime = LocalTime.parse(hora);
+        LocalTime terminoExistenteTime = LocalTime.parse(horaTermino);
+        LocalTime inicioNuevoTime = LocalTime.parse(hora_Inicio);
+        LocalTime terminoNuevoTime = LocalTime.parse(hora_Fin);
+        return (inicioNuevoTime.isBefore(terminoExistenteTime) && terminoNuevoTime.isAfter(inicioExistenteTime));
+    }
+
+    private void FechaSeleccionada(LocalDate fechaSeleccionada) {
+        noDisponible.setVisible(false);
+        cadenaFecha = new ArrayList<>(); // Inicializa la lista aquí
+        textoArea = null;
+        noDisponible.clear();
+        String agregar;
+        noDisponible.setText("Horarios no disponibles en la fecha: \n" + fechaSeleccionada);
+        textoArea = noDisponible.getText();
+
+        try {
+            String horaTermino;
+            if (con != null) { // Verificar si se ha establecido una conexión.
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery("SELECT * FROM detalle_reserva WHERE id_Mobiliario = '" + id_selected + "'");
+
+                while (rs.next()) {
+                    int idMobiliario = rs.getInt("id_Horario");
+                    cadenaFecha.add(idMobiliario); // Ahora debería funcionar
+                }
+
+                if (!cadenaFecha.isEmpty()) { // Verifica si cadenaFecha no está vacía
                     noDisponible.setVisible(true);
-                    
+
                     for (int i = 0; i < cadenaFecha.size(); i++) {
-                        ResultSet rsFecha = st.executeQuery("SELECT * FROM horario WHERE id_Horario = '" + cadenaFecha.get(i)+ "'");
+                        ResultSet rsFecha = st.executeQuery("SELECT * FROM horario WHERE id_Horario = '" + cadenaFecha.get(i) + "'");
                         while (rsFecha.next()) {
                             String hora = rsFecha.getString("Hora_inicio");
                             horaTermino = rsFecha.getString("Hora_Termino");
-                            agregar=hora+" - "+horaTermino;
-                            textoArea=textoArea+agregar;
-                           noDisponible.setText("\n"+textoArea);
+                            agregar = hora + " - " + horaTermino;
+                            textoArea += "\n" + agregar; // Concatenar con salto de línea
+                            noDisponible.setText(textoArea); // Actualiza el TextArea
                         }
                         rsFecha.close();
                     }
@@ -301,8 +310,8 @@ public class tablaController {
                 rs.close(); // Cerrar el ResultSet después de usarlo.
             }
         } catch (SQLException e) {
-            System.err.println("Error al realizar la consulta: " + e.getMessage()); // Manejo básico de errores en caso de fallos en la consulta.
+            alerta = new Alert(Alert.AlertType.ERROR, "Error al realizar la consulta: " + e.getMessage());
+            alerta.showAndWait();
         }
     }
-
 }

@@ -80,6 +80,7 @@ public class LoginController {
                                 fxmlController.setPuesto(puesto);  // Pasar el puesto al controlador
 
                                 Stage stage = new Stage();  // Crear una nueva ventana
+                                 stage.setTitle("Sistema de reservas");
                                 stage.setScene(new Scene(root));  // Establecer la escena en la nueva ventana
                                 stage.show();  // Mostrar la nueva ventana
                             } else {

@@ -16,6 +16,8 @@ import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javaapplication1.JavaApplication1;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -53,6 +55,8 @@ public class NotificacionesController {
     private int id_selected = 0; // ID del mobiliario seleccionado en la tabla
     private String estado=null; 
     private String textoArea;
+    private int trabajador_Select;
+    private  LocalDate fechaCalendario;
     private List<Integer> cadenaUsuarios = new ArrayList<>(); // Lista de IDs de trabajadores
     private List<Integer> cadenaFecha = new ArrayList<>(); 
     private Connection con = JavaApplication1.getConnection(); // Conexión a la base de datos
@@ -88,6 +92,8 @@ public class NotificacionesController {
 
     @FXML
     private Button eliminar;
+    @FXML
+    private Button btn_Rechazar;
     @FXML
     private Button Aprobar;
     
@@ -130,35 +136,33 @@ public class NotificacionesController {
         String queryBase = "SELECT * FROM detalle_reserva WHERE id_trabajador = ?";
         String query = queryBase;
 
-
         switch (texto) {
             case "Todos":
-                query = queryBase;  // Consulta base para todos los trabajadores.
-                for (int i = 1; i < cadenaUsuarios.size(); i++) {
+               for (int i = 1; i < cadenaUsuarios.size(); i++) {
                     trabajador = cadenaUsuarios.get(i);  // Obtener el ID del trabajador actual.
                     cargarDatosNotificaciones(query, trabajador);  // Cargar datos de notificaciones.
                 }
                 break;
 
             case "Por validar":
-                query = queryBase + " AND Estado = 'Por validar'";  // Consulta para notificaciones por validar.
-                for (int i = 1; i < cadenaUsuarios.size(); i++) {
+                query = queryBase + " AND Estado = 'Por validar'"; // Consulta específica para "Por validar".
+                for (int i = 1; i < cadenaUsuarios.size(); i++) { // Evita el índice 0.
                     trabajador = cadenaUsuarios.get(i);
                     cargarDatosNotificaciones(query, trabajador);
                 }
                 break;
 
             case "Validado":
-                query = queryBase + " AND Estado = 'Validado'";  // Consulta para notificaciones validadas.
-                for (int i = 1; i < cadenaUsuarios.size(); i++) {
+                query = queryBase + " AND Estado = 'Validado'"; // Consulta específica para "Validado".
+                for (int i = 1; i < cadenaUsuarios.size(); i++) { // Evita el índice 0.
                     trabajador = cadenaUsuarios.get(i);
                     cargarDatosNotificaciones(query, trabajador);
                 }
                 break;
 
             case "Rechazado":
-                query = queryBase + " AND Estado = 'Rechazado'";  // Consulta para notificaciones rechazadas.
-                for (int i = 1; i < cadenaUsuarios.size(); i++) {
+                query = queryBase + " AND Estado = 'Rechazado'"; // Consulta específica para "Rechazado".
+                for (int i = 1; i < cadenaUsuarios.size(); i++) { // Evita el índice 0.
                     trabajador = cadenaUsuarios.get(i);
                     cargarDatosNotificaciones(query, trabajador);
                 }
@@ -166,7 +170,7 @@ public class NotificacionesController {
 
             case "Mis reservas":
                 if (!cadenaUsuarios.isEmpty()) {
-                    trabajador = cadenaUsuarios.get(0); // Solo toma el primer usuario.
+                    trabajador = cadenaUsuarios.get(0); // Toma solo el primer usuario.
                     cargarDatosNotificaciones(query, trabajador);
                 }
                 break;
@@ -174,6 +178,7 @@ public class NotificacionesController {
 
         tablaDetalleReserva.setItems(detalleReserva); // Actualiza la tabla con los datos cargados.
     }
+
 
     /**
      * Método que carga los datos de las notificaciones desde la base de datos.
@@ -183,34 +188,35 @@ public class NotificacionesController {
      * cargar.
      */
     private void cargarDatosNotificaciones(String query, int trabajador) {
-
         try (PreparedStatement pst = con.prepareStatement(query)) {
-            pst.setInt(1, trabajador);  // Establecer el ID del trabajador en la consulta.
-
+             if (trabajador != -1) { // Solo establece el parámetro si el trabajador es específico.
+            pst.setInt(1, trabajador);
+            }
             try (ResultSet rs = pst.executeQuery()) {
-                boolean hasResults = false;  // Bandera para verificar si hay resultados en la consulta.
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");  // Formato de fecha.
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                Set<Integer> idsExistentes = detalleReserva.stream()
+                        .map(ContenidoNotificacion::getId_Notificacion) // Extrae los IDs existentes.
+                        .collect(Collectors.toSet());
 
-                while (rs.next()) {  // Iterar sobre los resultados de la consulta.
-                    hasResults = true;
+                while (rs.next()) {
+                    int idNotificacion = rs.getInt("id_detalleReserva");
+                    if (!idsExistentes.contains(idNotificacion)) { // Evita duplicados.
+                        String fecha = sdf.format(rs.getTimestamp("Fecha"));
+                        String descripcion = rs.getString("RazondeReserva");
+                        String estadoReserva = rs.getString("Estado");
 
-                    int idNotificacion = rs.getInt("id_detalleReserva");  // Obtener el ID de la notificación.
-                    java.sql.Timestamp fechaTimestamp = rs.getTimestamp("Fecha");  // Obtener la fecha como Timestamp.
-                    String fecha = sdf.format(fechaTimestamp);  // Formatear la fecha a String.
-                    String descripcion = rs.getString("RazondeReserva");  // Obtener la descripción de la reserva.
-                    String estadoReserva = rs.getString("Estado");  // Obtener el estado de la reserva.
-
-
-                    detalleReserva.add(new ContenidoNotificacion(idNotificacion, trabajador, fecha, descripcion, estadoReserva));  // Añadir a la lista observable.
+                        detalleReserva.add(new ContenidoNotificacion(
+                                idNotificacion, trabajador, fecha, descripcion, estadoReserva
+                        ));
+                    }
                 }
-
             }
         } catch (SQLException e) {
-            System.err.println("Error al cargar las notificaciones: " + e.getMessage());  // Manejo básico de errores en caso de fallos en la consulta.
+            System.err.println("Error al cargar las notificaciones: " + e.getMessage());
         }
 
-        tablaDetalleReserva.setItems(detalleReserva);  // Actualizar los elementos en la tabla con los datos cargados.
-        tablaDetalleReserva.refresh();  // Asegura que se sincronice con los cambios en los datos.
+        tablaDetalleReserva.setItems(detalleReserva);
+        tablaDetalleReserva.refresh();
     }
 
     /**
@@ -248,13 +254,16 @@ public class NotificacionesController {
                 id_selected = newValue.getId_Notificacion(); // Obtiene el ID del mobiliario seleccionado.
                 estado = newValue.getEstado(); // Obtiene el ID del mobiliario seleccionado.
                 id_select.setText("" + id_selected); // Muestra el ID en el campo correspondiente.
+                trabajador_Select=newValue.getId_trabajador();
                  id_select1.setText("" + id_selected); // Muestra el ID en el campo correspondiente.
                 folio = Integer.parseInt(id_select.getText());
-                if("Por validar".equals(estado)){
+                if("Por validar".equals(estado)&&trabajador_Select!=cadenaUsuarios.get(0)){
+                    
                     editar.setVisible(false);
                     eliminar.setVisible(false);
                     Aprobar.setVisible(true);
                     comentario.setVisible(true);
+                    btn_Rechazar.setVisible(true);
                 }
              
 
@@ -277,6 +286,7 @@ public class NotificacionesController {
         });
          calendario1.setOnAction(event -> {
             LocalDate fechaSeleccionada = calendario1.getValue();
+             
             FechaSeleccionada(fechaSeleccionada);
         });
         
@@ -379,90 +389,98 @@ public class NotificacionesController {
     }
 
     @FXML
-    void btn_Eliminar(ActionEvent event) {
-        Alert alerta;
-        try {
-            if (estado != null || estado != "Validado") {
-                // Obtener el ID de la reserva desde el campo de texto
-                int folioReserva = Integer.parseInt(id_select.getText());
-                
-                
-                String query_Horario = "SELECT * FROM detalleReserva WHERE id_detalleReserva = ?";
+void btn_Eliminar(ActionEvent event) {
+    Alert alerta;
+    try {
+        // Validar estado antes de proceder
+        if (estado == null || !estado.equals("Validado")) {
+            // Obtener el ID de la reserva desde el campo de texto
+            int folioReserva = Integer.parseInt(id_select.getText());
+            int id_Horario = -1;
+
+            // Obtener id_Horario asociado al detalle_reserva
+            String query_Horario = "SELECT id_Horario FROM detalle_reserva WHERE id_detalleReserva = ?";
             try (PreparedStatement pst_Horario = con.prepareStatement(query_Horario)) {
-                pst_Horario.setInt(1, folioReserva);  // Establecer el ID del folio en la consulta.
-                  try (ResultSet rs_Horario = pst_Horario.executeQuery()) {
-                      while (rs_Horario.next()) {  // Iterar sobre los resultados de la consulta.
-                          horaInicio= rs_Horario.getInt("id_Horario");
-                      }
-                  }
-
-            } catch (SQLException e) {
-                System.err.println("Error al cargar las notificaciones: " + e.getMessage());
-            }
-                // Consulta SQL para eliminar el registro
-                String queryHorario = "DELETE FROM detalle_reserva WHERE id_detalleReserva = ?";
-
-                // Preparar la declaración
-                PreparedStatement pstHorario = con.prepareStatement(queryHorario);
-                pstHorario.setInt(1, horaInicio);
-                
-                // Consulta SQL para eliminar el registro
-                String query = "DELETE FROM detalle_reserva WHERE id_detalleReserva = ?";
-
-                // Preparar la declaración
-                PreparedStatement pst = con.prepareStatement(query);
-                pst.setInt(1, folioReserva);
-
-                // Ejecutar la actualización
-                int affectedRows = pst.executeUpdate();
-                
-                
-
-                // Ejecutar la actualización
-                int affectedRowsHorario = pstHorario.executeUpdate();
-                
-                // Verificar si se eliminó alguna fila
-                if (affectedRows > 0 && affectedRowsHorario >0) {
-                        alerta = new Alert(Alert.AlertType.CONFIRMATION,"Reserva eliminada exitosamente." );  // Crear una alerta confirmando que se ha creado la reserva.
-                        alerta.showAndWait();
-                } else {
-                         alerta = new Alert(Alert.AlertType.CONFIRMATION,"No se encontró ninguna reserva con ese ID." );  // Crear una alerta confirmando que se ha creado la reserva.
-                         alerta.showAndWait();
+                pst_Horario.setInt(1, folioReserva);  
+                try (ResultSet rs_Horario = pst_Horario.executeQuery()) {
+                    if (rs_Horario.next()) {  
+                        id_Horario = rs_Horario.getInt("id_Horario");
+                    }
                 }
-
-            }else{
-                alerta = new Alert(Alert.AlertType.CONFIRMATION, "El folio ya fue validada");  // Crear una alerta confirmando que se ha creado la reserva.
-                alerta.showAndWait();
             }
-        } catch (SQLException e) {
-                alerta = new Alert(Alert.AlertType.CONFIRMATION, "Error al eliminar la reserva: El folio ya fue validado.\n " + e.getMessage());  // Crear una alerta confirmando que se ha creado la reserva.
+
+            if (id_Horario == -1) {
+                alerta = new Alert(Alert.AlertType.ERROR, "No se encontró el id_Horario asociado a este detalle_reserva.");
                 alerta.showAndWait();
-        } catch (NumberFormatException e) {
-                alerta = new Alert(Alert.AlertType.CONFIRMATION, "El ID ingresado no es un número válido.");  // Crear una alerta confirmando que se ha creado la reserva.
-                alerta.showAndWait();
-        } catch (Exception e) {
-                alerta = new Alert(Alert.AlertType.CONFIRMATION,"Error inesperado: " + e.getMessage() );  // Crear una alerta confirmando que se ha creado la reserva.
-                alerta.showAndWait();
+                return;
+            }
+
+            // Eliminar detalle_reserva
+            String queryDetalleReserva = "DELETE FROM detalle_reserva WHERE id_detalleReserva = ?";
+            try (PreparedStatement pstDetalleReserva = con.prepareStatement(queryDetalleReserva)) {
+                pstDetalleReserva.setInt(1, folioReserva);
+                int affectedRowsDetalle = pstDetalleReserva.executeUpdate();
+
+                if (affectedRowsDetalle > 0) {
+                    alerta = new Alert(Alert.AlertType.INFORMATION, "Detalle de reserva eliminado exitosamente.");
+                    alerta.showAndWait();
+                } else {
+                    alerta = new Alert(Alert.AlertType.WARNING, "No se encontró ningún detalle_reserva con ese ID.");
+                    alerta.showAndWait();
+                }
+            }
+
+            // Eliminar horario asociado
+            String queryHorario = "DELETE FROM horario WHERE id_Horario = ?";
+            try (PreparedStatement pstHorario = con.prepareStatement(queryHorario)) {
+                pstHorario.setInt(1, id_Horario);
+                int affectedRowsHorario = pstHorario.executeUpdate();
+
+                if (affectedRowsHorario > 0) {
+                    alerta = new Alert(Alert.AlertType.INFORMATION, "Horario eliminado exitosamente.");
+                    alerta.showAndWait();
+                } else {
+                    alerta = new Alert(Alert.AlertType.WARNING, "No se encontró ningún horario con ese ID.");
+                    alerta.showAndWait();
+                }
+            }
+        } else {
+            alerta = new Alert(Alert.AlertType.WARNING, "El folio ya fue validado y no puede eliminarse.");
+            alerta.showAndWait();
         }
+    } catch (SQLException e) {
+        alerta = new Alert(Alert.AlertType.ERROR, "Error al eliminar la reserva: " + e.getMessage());
+        alerta.showAndWait();
+    } catch (NumberFormatException e) {
+        alerta = new Alert(Alert.AlertType.ERROR, "El ID ingresado no es un número válido.");
+        alerta.showAndWait();
     }
-    
+}
+
+     @FXML
+    void btn_Rechazar(ActionEvent event) {
+        String comentarios=comentario.getText();
+        Insert aprobar= new Insert();
+        aprobar.Rechazar(comentarios, id_selected);
+        
+    }
         @FXML
     void btnModificarReserva(ActionEvent event) {
 
-        LocalDate fecha = calendario1.getValue(); // Obtener la fecha seleccionada desde el DatePicker
+         fechaCalendario = calendario1.getValue(); // Obtener la fecha seleccionada desde el DatePicker
       
         String hora_Inicio = menu_hhInicio.getText()+":"+menu_mmInicio.getText(); // Obtener hora de inicio desde el campo correspondiente.
         String hora_Fin = menu_hhTermino.getText()+":"+menu_mmTermino.getText();   // Obtener hora de fin desde el campo correspondiente.
         String razon= menuRazon.getText();
-        if (fecha != null && hora_Inicio != null && hora_Fin != null && id_selected != 0) {  // Verificar que se ha seleccionado una fecha válida.
-          String  dia = fecha.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault());
-          String  fecha_Seleccionada = fecha.toString();
+        if (fechaCalendario!= null && hora_Inicio != null && hora_Fin != null && id_selected != 0) {  // Verificar que se ha seleccionado una fecha válida.
+          String  dia = fechaCalendario.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault());
+          String  fecha_Seleccionada = fechaCalendario.toString();
            boolean validarHorario = FechaSeleccionada();
                 if (validarHorario) {
                     Alert alerta = new Alert(Alert.AlertType.CONFIRMATION, "Horario Ocupado");
                 } else {
                      Insert dato = new Insert();
-            dato.editarHorario(id_Horario, folio,hora_Inicio, hora_Fin, dia, fecha_Seleccionada,  razon);
+            dato.editarHorario(id_Horario, id_selected,hora_Inicio, hora_Fin, dia, fechaCalendario,  razon);
                 }
            
 

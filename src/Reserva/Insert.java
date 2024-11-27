@@ -93,8 +93,12 @@ public class Insert {
                 int rowsInserteddetalleReserva = psdetallereserva.executeUpdate();  // Ejecutar la consulta
                 if (rowsInserteddetalleReserva > 0) {
                     System.out.println("Inserción exitosa en la tabla detalle_reserva.");
+                    alerta = new Alert(Alert.AlertType.CONFIRMATION, "Formulario en espera de aprobacion.");
+                    alerta.showAndWait();
                 } else {
-                    System.out.println("Inserción fallida en la tabla detalle_reserva.");
+                    System.out.println("Inserción fallida en  el formulario.");
+                    alerta = new Alert(Alert.AlertType.CONFIRMATION, "Inserción fallida en el formulario.");
+                    alerta.showAndWait();
                 }
 
                 ps.close();  // Cerrar el PreparedStatement después de usarlo
@@ -148,17 +152,19 @@ public class Insert {
         }
     }
 
-    public void editarHorario(int idHorario, int id_detalleReserva, String hora_Inicio, String hora_Fin, String dia, String fecha, String razon) {
+    public void editarHorario(int idHorario, int id_detalleReserva, String hora_Inicio, String hora_Fin, String dia, LocalDate fecha, String razon) {
+        java.sql.Date fechaSql;
         if (con != null) {
             // Verifica que la conexión no es nula
-
-            String sql = "UPDATE horario SET Hora_inicio = ?, Hora_Termino = ?, Dia_Semana = ? WHERE id_Horario = ?";
+            fechaSql = java.sql.Date.valueOf(fecha); 
+            String sql = "UPDATE horario SET Hora_inicio = ?, Hora_Termino = ?, Dia_Semana = ? FechaReserva= ? WHERE id_Horario = ?";
             try (PreparedStatement pstmt = con.prepareStatement(sql)) {
                 // Establecer los parámetros
                 pstmt.setString(1, hora_Inicio);
                 pstmt.setString(2, hora_Fin);
                 pstmt.setString(3, dia);
-                pstmt.setInt(4, idHorario);
+                pstmt.setDate(4, fechaSql);   // Fecha de la reserva
+                pstmt.setInt(5, idHorario);
 
                 // Ejecutar la actualización
                 int filasActualizadas = pstmt.executeUpdate();
@@ -170,6 +176,24 @@ public class Insert {
             try (PreparedStatement pstmt = con.prepareStatement(sql)) {
                 // Establecer los parámetros
                 pstmt.setString(1, razon);
+                pstmt.setInt(2, id_detalleReserva);
+
+                // Ejecutar la actualización
+                int filasActualizadas = pstmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace(); // Manejo de excepciones
+            }
+        } // Manejo básico de errores en caso de fallos en las consultas.
+    }
+public void Rechazar(String comentario, int id_detalleReserva) {
+        java.sql.Date fechaSql;
+        if (con != null) {
+            
+            String sql = "UPDATE detallereserva SET Estado = ? WHERE id_detalleReserva = ?";
+            
+            try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+                // Establecer los parámetros
+                pstmt.setString(1, comentario);
                 pstmt.setInt(2, id_detalleReserva);
 
                 // Ejecutar la actualización
@@ -196,7 +220,6 @@ public class Insert {
                     newIdDetalleReserva = rsDetalleReserva.getInt(1) + 1;  // Obtener el nuevo ID basado en el máximo existente
                 }
 
-                System.out.println("trabajador: " + trabajador + "  id_detalleReserva: " + newIdDetalleReserva);
                 String insertreservaSQL = "INSERT INTO reserva (id_Trabajador, id_DetalleReserva, razon) VALUES (?, ?, ?)";
                 PreparedStatement psreserva = con.prepareStatement(insertreservaSQL);
                 psreserva.setInt(1, trabajador);                  // Establecer ID del trabajador
